@@ -1375,8 +1375,9 @@ input[type="range"]::-moz-range-thumb {
 /* ============ TEAM ============ */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
+  max-width: 920px;
 }
 .team-card {
   background: var(--ink);
@@ -1457,7 +1458,6 @@ input[type="range"]::-moz-range-thumb {
 
 /* ============ MOBILE REFINEMENTS ============ */
 @media (max-width: 1080px) {
-  .team-grid { grid-template-columns: repeat(2, 1fr); }
   .renders-grid { grid-template-columns: 1fr; }
   #projectMap { height: 440px; }
 }
@@ -1536,4 +1536,89 @@ input[type="range"]::-moz-range-thumb {
   .brand-mark { font-size: 15px; white-space: nowrap; letter-spacing: 0.1em; }
   .brand-sub { font-size: 8px; }
   .nav-inner { padding: 0 20px; height: 64px; }
+}
+
+/* ============ PININFARINA MOOD GALLERY ============ */
+.pf-gallery { margin-bottom: 90px; }
+.pf-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 280px 280px;
+  gap: 16px;
+}
+.pf-gallery-item {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  position: relative;
+}
+.pf-gallery-item::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(19, 24, 24, 0.55) 100%);
+  pointer-events: none;
+}
+.pf-gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.85) brightness(0.92);
+  transition: filter 0.5s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pf-gallery-item:hover img { filter: saturate(1) brightness(1); transform: scale(1.04); }
+.pf-gallery-tall { grid-row: span 2; }
+.pf-gallery-wide { grid-column: span 2; }
+.pf-gallery-caption {
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: var(--cream-faint);
+  max-width: 640px;
+}
+.pf-portfolio {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+.pf-portfolio-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+.pf-portfolio-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+}
+.pf-portfolio-list span {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--cream);
+}
+.pf-portfolio-list em {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--cream-faint);
+  margin-left: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1080px) {
+  .pf-gallery-grid { grid-template-rows: 220px 220px; }
+}
+@media (max-width: 720px) {
+  .pf-gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: 220px;
+  }
+  .pf-gallery-tall, .pf-gallery-wide { grid-row: auto; grid-column: auto; }
+  .pf-portfolio-list { gap: 14px 28px; }
+  .pf-portfolio-list span { font-size: 18px; }
 }

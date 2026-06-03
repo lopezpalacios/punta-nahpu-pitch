@@ -4,8 +4,16 @@
 
 const MAP_DATA = {
   project: {
-    coords: [20.7086, -86.9689],
-    radiusMeters: 170   // ~9 ha visual footprint
+    // Centroid + boundary polygon from the MIA (SEMARNAT filing), UTM 16N WGS84 -> WGS84
+    coords: [20.738756, -86.993164],
+    polygon: [
+      [20.739930, -86.996812],
+      [20.740681, -86.995108],
+      [20.738750, -86.991917],
+      [20.738561, -86.992354],
+      [20.737582, -86.990738],
+      [20.737030, -86.992057]
+    ]
   },
   pois: [
     { coords: [21.0365, -86.8771], key: "poi_airport",   en: "Cancún International Airport — 30 min",      es: "Aeropuerto Internacional de Cancún — 30 min" },
@@ -27,7 +35,7 @@ function initMap() {
     scrollWheelZoom: false,       // don't hijack page scroll
     zoomControl: true,
     attributionControl: true
-  }).setView([20.81, -86.95], 10);
+  }).setView([20.82, -86.96], 10);
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -54,12 +62,12 @@ function initMap() {
     .bindPopup(projectLabel, { className: "map-popup" })
     .openPopup();
 
-  L.circle(MAP_DATA.project.coords, {
-    radius: MAP_DATA.project.radiusMeters,
+  // Actual property boundary (from the MIA environmental filing)
+  L.polygon(MAP_DATA.project.polygon, {
     color: "#c9a872",
     fillColor: "#c9a872",
-    fillOpacity: 0.18,
-    weight: 1.5
+    fillOpacity: 0.22,
+    weight: 2
   }).addTo(projectMap);
 
   // --- POI markers: small cream dots ---
