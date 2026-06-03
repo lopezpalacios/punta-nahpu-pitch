@@ -83,10 +83,10 @@
   .gate-card-wide { max-width: 560px; }
   .gate-thesis {
     font-family: var(--font-display);
-    font-size: 19px;
-    line-height: 1.45;
+    font-size: 22px;
+    line-height: 1.4;
     color: var(--cream);
-    margin-bottom: 28px;
+    margin-bottom: 20px;
   }
   .gate-kpis {
     display: grid;
@@ -133,27 +133,21 @@
 </head>
 <body>
 <div class="gate-wrap" id="gate">
-  <div class="gate-card gate-card-wide">
+  <div class="gate-card">
     <img src="assets/logo-mark.png" alt="Lopac" class="gate-logo">
     <div class="gate-brand">PUNTA NAHPU</div>
     <div class="gate-sub">Riviera Maya · México</div>
 
-    <!-- Teaser: the thesis is visible BEFORE the password -->
-    <p class="gate-thesis">141 residencias de autor en el corredor Mayakoba.<br>Un solo socio capitalista.</p>
-    <div class="gate-kpis">
-      <div class="gate-kpi"><span class="mono">22.7–24.5%</span><small>TIR anual</small></div>
-      <div class="gate-kpi"><span class="mono">2.36–2.50×</span><small>Múltiplo (MOIC)</small></div>
-      <div class="gate-kpi"><span class="mono">$100–105M</span><small>MXN en tramos</small></div>
-      <div class="gate-kpi"><span class="mono">3.5 años</span><small>Recuperación</small></div>
-    </div>
-    <p class="gate-trust">Respaldado por el desarrollador de 17 tiendas Costco y 50+ centros comerciales en México · Título de 9 ha en mano · CUS y MIA elaboradas</p>
+    <!-- Generic thesis only — no figures, no deal terms -->
+    <p class="gate-thesis">Desarrollo residencial privado<br>en la Riviera Maya.</p>
+    <p class="gate-text">Información confidencial para inversionistas calificados.<br>El acceso requiere clave proporcionada por Grupo LoPac.</p>
 
     <div class="gate-field">
       <input type="password" class="gate-input" id="gatePw" placeholder="Clave de acceso" autocomplete="off" autofocus>
       <button class="btn btn-gold" id="gateBtn">Entrar</button>
     </div>
     <p class="gate-msg" id="gateMsg"></p>
-    <a class="gate-request" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AFondo%20%2F%20Empresa%3A%0ATel%C3%A9fono%3A">¿No tienes clave? Solicitar acceso →</a>
+    <a class="gate-request" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AEmpresa%3A%0ATel%C3%A9fono%3A">Solicitar acceso →</a>
     <p class="gate-foot">Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.<br>Contenido cifrado — AES-256</p>
   </div>
 </div>
