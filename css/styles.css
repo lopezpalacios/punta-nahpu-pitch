@@ -1150,7 +1150,7 @@ input[type="range"]::-moz-range-thumb {
   gap: 80px;
   align-items: start;
 }
-.footer-logo { height: 44px; width: auto; opacity: 0.9; }
+.footer-logo { height: 44px; width: auto; opacity: 0.9; mix-blend-mode: lighten; }
 .footer-brand p { font-size: 13px; color: var(--cream-faint); margin-top: 16px; }
 .footer-meta { text-align: right; }
 .footer-meta > p:first-child {
