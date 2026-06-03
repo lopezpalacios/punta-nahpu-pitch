@@ -1220,3 +1220,320 @@ input[type="range"]::-moz-range-thumb {
   .hero { padding-top: 110px; }
   .scenario-toggle-wrap { flex-direction: column; align-items: flex-start; }
 }
+
+/* ============ HERO PHOTO BACKGROUND ============ */
+.hero-photo {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center 65%;
+  opacity: 0.35;
+  filter: saturate(0.75) brightness(0.7);
+}
+.hero-gradient {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(77, 150, 112, 0.14), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 110%, rgba(201, 168, 114, 0.08), transparent 55%),
+    linear-gradient(180deg, rgba(16, 21, 21, 0.82) 0%, rgba(19, 24, 24, 0.88) 45%, var(--ink) 92%);
+}
+
+/* ============ INTERACTIVE MAP ============ */
+.map-block { margin-bottom: 110px; }
+.map-frame {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--ink-3);
+}
+#projectMap {
+  height: 520px;
+  width: 100%;
+  background: #0e1313;
+  z-index: 1;
+}
+.map-legend {
+  display: flex;
+  gap: 32px;
+  padding: 18px 28px;
+  border-top: 1px solid var(--line);
+  background: var(--ink-3);
+  flex-wrap: wrap;
+}
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--cream-dim);
+}
+.map-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.map-dot-gold { background: var(--gold); box-shadow: 0 0 12px rgba(201, 168, 114, 0.6); }
+.map-dot-cream { background: var(--cream-faint); }
+
+/* Leaflet dark theme overrides */
+.leaflet-container { font-family: var(--font-mono); }
+.leaflet-control-zoom a {
+  background: var(--ink-3) !important;
+  color: var(--cream) !important;
+  border-color: var(--line-strong) !important;
+}
+.leaflet-control-zoom a:hover { background: var(--ink-2) !important; color: var(--gold-bright) !important; }
+.leaflet-control-attribution {
+  background: rgba(19, 24, 24, 0.8) !important;
+  color: var(--cream-faint) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a { color: var(--cream-dim) !important; }
+.map-popup .leaflet-popup-content-wrapper {
+  background: var(--ink-3);
+  color: var(--cream);
+  border: 1px solid var(--gold-dim);
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.map-popup .leaflet-popup-content-wrapper strong {
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+.map-popup .leaflet-popup-tip { background: var(--ink-3); border: 1px solid var(--gold-dim); }
+.map-popup .leaflet-popup-close-button { color: var(--cream-faint) !important; }
+
+/* Project marker */
+.map-marker-project { position: relative; }
+.map-pin {
+  position: absolute; inset: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ink), 0 0 16px rgba(201, 168, 114, 0.8);
+}
+.map-pulse {
+  position: absolute; inset: -8px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  animation: mapPulse 2.4s ease-out infinite;
+}
+@keyframes mapPulse {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.map-poi-dot {
+  width: 10px; height: 10px;
+  background: var(--cream-dim);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(19, 24, 24, 0.8);
+}
+
+/* ============ PININFARINA LOGO ============ */
+.pf-logo {
+  height: 64px;
+  width: auto;
+  margin-bottom: 32px;
+  /* SVG is navy — render it cream on the dark background */
+  filter: brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(437%) hue-rotate(347deg) brightness(98%) contrast(91%);
+  opacity: 0.95;
+}
+
+/* ============ RENDERS ============ */
+.renders { margin-bottom: 110px; }
+.renders-note {
+  font-size: 13.5px;
+  color: var(--cream-faint);
+  margin: -16px 0 36px;
+  max-width: 640px;
+}
+.renders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.render-card {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--ink-3);
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.render-card:hover { border-color: var(--gold-dim); transform: translateY(-4px); }
+.render-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.9);
+  transition: filter 0.4s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.render-card:hover img { filter: saturate(1.05); transform: scale(1.03); }
+.render-card figcaption {
+  padding: 20px 24px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--cream-dim);
+}
+
+/* ============ TEAM ============ */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+.team-card {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  padding: 40px 32px;
+  transition: border-color 0.3s;
+}
+.team-card:hover { border-color: var(--line-strong); }
+.team-card-pf { border-top: 2px solid var(--gold); }
+.team-role {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.team-card h4 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  letter-spacing: -0.005em;
+}
+.team-card p { font-size: 14px; line-height: 1.65; color: var(--cream-dim); }
+
+/* ============ MOBILE NAV DRAWER ============ */
+.nav-drawer {
+  display: none;
+  flex-direction: column;
+  background: rgba(19, 24, 24, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 24px 28px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-drawer.open { max-height: 480px; }
+.nav-drawer a {
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 16px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.25s;
+}
+.nav-drawer a:hover, .nav-drawer a:active { color: var(--gold-bright); }
+.nav-drawer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 22px;
+  gap: 16px;
+}
+.nav-burger {
+  background: none;
+  border: none;
+  width: 44px; height: 44px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-burger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--cream);
+  transition: transform 0.35s, opacity 0.35s;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ============ MOBILE REFINEMENTS ============ */
+@media (max-width: 1080px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .renders-grid { grid-template-columns: 1fr; }
+  #projectMap { height: 440px; }
+}
+
+@media (max-width: 720px) {
+  /* Mobile drawer takes over */
+  .nav-burger { display: flex; }
+  .nav-drawer { display: flex; }
+  .nav-actions { display: none; }
+
+  /* Hero on mobile */
+  .hero { min-height: auto; padding-top: 120px; padding-bottom: 60px; }
+  .hero-title { font-size: clamp(36px, 10vw, 48px); }
+  .hero-sub { font-size: 15px; }
+  .hero-ctas .btn { width: 100%; text-align: center; }
+  .kpi-strip { margin-top: 56px; }
+  .kpi { padding: 20px 16px 18px; }
+  .kpi-value { font-size: 20px; }
+  .kpi-label { font-size: 11px; }
+  .kpi-disclaimer { font-size: 10px; padding: 0 8px; }
+
+  /* Map on mobile */
+  #projectMap { height: 360px; }
+  .map-legend { gap: 16px; padding: 14px 18px; }
+
+  /* Team / sections */
+  .team-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 30px; }
+  .section-title-xl { font-size: 32px; }
+  .section-lede { font-size: 15.5px; }
+  .block-title { font-size: 22px; }
+
+  /* Pininfarina economics on mobile */
+  .pf-col { padding: 28px 22px; }
+  .pf-logo { height: 48px; }
+  .pf-list li { font-size: 13.5px; }
+  .pf-list li .mono { min-width: 60px; font-size: 14px; }
+  .pf-be-marker span:last-child { font-size: 9px; }
+
+  /* Tables: horizontal scroll hint */
+  .data-table { min-width: 640px; }
+  .table-wrap { -webkit-overflow-scrolling: touch; }
+
+  /* Charts smaller */
+  .chart-wrap { height: 260px; }
+  .chart-wrap.chart-tall { height: 300px; }
+  .chart-card, .momentum-chart, .comps-chart { padding: 22px 18px; }
+
+  /* Calculator on mobile */
+  .calc-controls { padding: 28px 22px; }
+  .calc-output { padding: 20px 18px; }
+  .calc-output-value { font-size: 20px; }
+  .calc-chart { padding: 22px 18px; }
+
+  /* Risk floor */
+  .risk-floor { padding: 36px 24px; }
+  .risk-floor-num { font-size: 64px; }
+
+  /* Ask section */
+  .section-ask { padding: 100px 0; }
+  .ask-ctas .btn { width: 100%; }
+
+  /* Stats */
+  .stat-big { font-size: 34px; min-width: 110px; }
+  .prox-time { font-size: 32px; }
+
+  /* Renders */
+  .render-card figcaption { padding: 16px 18px; font-size: 13px; }
+}
+
+/* Mobile nav brand: prevent wordmark wrap */
+@media (max-width: 720px) {
+  .nav-logo { height: 24px; }
+  .nav-brand { gap: 10px; }
+  .nav-brand-text { padding-left: 10px; }
+  .brand-mark { font-size: 15px; white-space: nowrap; letter-spacing: 0.1em; }
+  .brand-sub { font-size: 8px; }
+  .nav-inner { padding: 0 20px; height: 64px; }
+}

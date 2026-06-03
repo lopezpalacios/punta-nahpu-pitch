@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -46,11 +48,30 @@
       <span></span><span></span><span></span>
     </button>
   </div>
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="navDrawer">
+    <a href="#corridor" data-i18n="nav_location">The Corridor</a>
+    <a href="#pininfarina" data-i18n="nav_design">Pininfarina</a>
+    <a href="#blueprint" data-i18n="nav_blueprint">Blueprint</a>
+    <a href="#financials" data-i18n="nav_financials">Financials</a>
+    <a href="#calculator" data-i18n="nav_calculator">Calculator</a>
+    <a href="#risk" data-i18n="nav_risk">Risk</a>
+    <a href="#team" data-i18n="nav_team">Equipo</a>
+    <div class="nav-drawer-actions">
+      <button class="lang-toggle" id="langToggleMobile">
+        <span class="lang-opt active" data-lang="es">ES</span>
+        <span class="lang-sep">/</span>
+        <span class="lang-opt" data-lang="en">EN</span>
+      </button>
+      <a href="dataroom.html" class="btn btn-gold btn-sm" data-i18n="nav_cta">Data Room</a>
+    </div>
+  </div>
 </header>
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
   <div class="hero-bg">
+    <div class="hero-photo" style="background-image:url('assets/render-pool.jpg')"></div>
     <div class="hero-gradient"></div>
     <div class="hero-grain"></div>
     <svg class="hero-topo" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -155,6 +176,19 @@
       </div>
     </div>
 
+
+    <!-- Interactive map -->
+    <div class="map-block">
+      <h3 class="block-title" data-i18n="map_title">El sitio, en el mapa</h3>
+      <div class="map-frame">
+        <div id="projectMap"></div>
+        <div class="map-legend">
+          <span class="map-legend-item"><span class="map-dot map-dot-gold"></span> <span data-i18n="map_legend_project">Punta Nahpu — 9 ha</span></span>
+          <span class="map-legend-item"><span class="map-dot map-dot-cream"></span> <span data-i18n="map_legend_poi">Referencias del corredor</span></span>
+        </div>
+      </div>
+    </div>
+
     <!-- Market momentum -->
     <div class="momentum">
       <div class="momentum-stats">
@@ -254,6 +288,7 @@
       <span class="section-num mono section-num-light">02</span>
       <div>
         <p class="reveal-eyebrow" data-i18n="pf_eyebrow">The differentiator</p>
+        <img src="assets/pininfarina.svg" alt="Pininfarina" class="pf-logo">
         <h2 class="section-title section-title-xl" data-i18n="pf_title">The studio behind Ferrari can design this neighborhood.</h2>
         <p class="section-lede" data-i18n="pf_lede">Pininfarina — the Italian house that shaped Ferrari, Maserati and Cipriani Residences — has scoped a full design package for Punta Nahpu: masterplan, villa architecture, show home interiors and global brand licensing. It is not decoration. It is a priced option with its own P&L.</p>
       </div>
@@ -347,6 +382,27 @@
         <div class="bp-density">
           <p data-i18n="bp_density_note">Zoning permits 179 homes on this land. The plan builds 141 — density held 21% below the legal ceiling, by design.</p>
         </div>
+      </div>
+    </div>
+
+
+    <!-- Architectural concept renders -->
+    <div class="renders">
+      <h3 class="block-title" data-i18n="renders_title">El concepto arquitectónico</h3>
+      <p class="renders-note" data-i18n="renders_note">Renders preliminares del concepto (2024). El diseño final del masterplan y las villas corresponde al escenario elegido.</p>
+      <div class="renders-grid">
+        <figure class="render-card">
+          <img src="assets/render-casa.jpg" alt="Casa unifamiliar 250 m²" loading="lazy">
+          <figcaption data-i18n="render_1">Casa unifamiliar tipo — 250 m², 3-4 recámaras, alberca privada</figcaption>
+        </figure>
+        <figure class="render-card">
+          <img src="assets/render-pool.jpg" alt="Casa club y alberca" loading="lazy">
+          <figcaption data-i18n="render_2">Casa club — alberca, áreas sociales, coworking</figcaption>
+        </figure>
+        <figure class="render-card">
+          <img src="assets/render-entrance.jpg" alt="Acceso al desarrollo" loading="lazy">
+          <figcaption data-i18n="render_3">Acceso único controlado, vialidades arboladas</figcaption>
+        </figure>
       </div>
     </div>
 
@@ -693,6 +749,42 @@
   </div>
 </section>
 
+
+<!-- ============ TEAM ============ -->
+<section class="section section-alt" id="team">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-num mono">08</span>
+      <div>
+        <h2 class="section-title" data-i18n="team_title">Quién construye esto</h2>
+        <p class="section-lede" data-i18n="team_lede">Los fondos respaldan operadores, no hojas de cálculo. El equipo detrás de Punta Nahpu ha entregado infraestructura comercial a escala nacional durante tres décadas.</p>
+      </div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <span class="team-role mono" data-i18n="team_1_role">Desarrollador</span>
+        <h4>Alfredo López Matus</h4>
+        <p data-i18n="team_1_desc">Tres décadas desarrollando infraestructura comercial en México: 17 tiendas Costco y más de 50 centros comerciales entregados. Lidera Grupo LoPac e Inmobiliaria Mactzil.</p>
+      </div>
+      <div class="team-card">
+        <span class="team-role mono" data-i18n="team_2_role">Constructor</span>
+        <h4>EGD Construcciones</h4>
+        <p data-i18n="team_2_desc">Constructora con sede en Querétaro, gestión BIM integral y contratos llave en mano. Responsable de la ejecución de obra civil y residencial del proyecto.</p>
+      </div>
+      <div class="team-card">
+        <span class="team-role mono" data-i18n="team_3_role">Legal</span>
+        <h4>Intelita · SCJM</h4>
+        <p data-i18n="team_3_desc">Asesoría legal especializada en desarrollo inmobiliario en Quintana Roo. Estructuración del régimen de condominio, fideicomisos y documentación del data room (2024).</p>
+      </div>
+      <div class="team-card team-card-pf">
+        <span class="team-role mono" data-i18n="team_4_role">Diseño (opcional)</span>
+        <h4>Pininfarina</h4>
+        <p data-i18n="team_4_desc">La casa de diseño italiana fundada en 1930 — Ferrari, Maserati, Cipriani Residences. Paquete de masterplan, arquitectura de villa y licencia de marca cotizado para el escenario premium.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ THE ASK ============ -->
 <section class="section section-ask" id="ask">
   <div class="ask-bg" aria-hidden="true"></div>
@@ -746,6 +838,7 @@
 <script src="js/i18n.js"></script>
 <script src="js/model.js"></script>
 <script src="js/charts.js"></script>
+<script src="js/map.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

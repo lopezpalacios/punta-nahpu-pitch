@@ -221,6 +221,32 @@ const I18N = {
     footer_dev: "Developed by Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.",
     footer_disclaimer: "This website is an informational summary for qualified investors and does not constitute an offer of securities. All projections are estimates based on the assumptions described herein; actual results may differ. Full terms available in the data room under NDA. Figures as of May 2026, MXN unless noted, FX reference 18.0 MXN/USD.",
 
+
+    // Map
+    map_title: "The site, on the map",
+    map_legend_project: "Punta Nahpu — 9 ha",
+    map_legend_poi: "Corridor references",
+    nav_team: "Team",
+
+    // Renders
+    renders_title: "The architectural concept",
+    renders_note: "Preliminary concept renders (2024). Final masterplan and villa design correspond to the elected scenario.",
+    render_1: "Single-family home type — 250 m², 3-4 bedrooms, private pool",
+    render_2: "Clubhouse — pool, social areas, coworking",
+    render_3: "Single controlled access, tree-lined roads",
+
+    // Team
+    team_title: "Who builds this",
+    team_lede: "Funds back operators, not spreadsheets. The team behind Punta Nahpu has delivered commercial infrastructure at national scale for three decades.",
+    team_1_role: "Developer",
+    team_1_desc: "Three decades developing commercial infrastructure in Mexico: 17 Costco stores and over 50 shopping centers delivered. Leads Grupo LoPac and Inmobiliaria Mactzil.",
+    team_2_role: "Builder",
+    team_2_desc: "Querétaro-based construction firm with full BIM management and turnkey contracts. Responsible for the project's civil and residential construction.",
+    team_3_role: "Legal",
+    team_3_desc: "Legal advisory specialized in Quintana Roo real estate development. Structuring of the condominium regime, trusts and data room documentation (2024).",
+    team_4_role: "Design (optional)",
+    team_4_desc: "The Italian design house founded in 1930 — Ferrari, Maserati, Cipriani Residences. Masterplan, villa architecture and brand licensing package scoped for the premium scenario.",
+
     // Chart labels
     ch_nahpu: "PUNTA NAHPU",
     ch_months: "Month",
@@ -458,6 +484,32 @@ const I18N = {
     // Footer
     footer_dev: "Desarrollado por Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.",
     footer_disclaimer: "Este sitio web es un resumen informativo para inversionistas calificados y no constituye una oferta de valores. Todas las proyecciones son estimaciones basadas en los supuestos aquí descritos; los resultados reales pueden diferir. Términos completos disponibles en el data room bajo NDA. Cifras a mayo 2026, MXN salvo indicación, referencia cambiaria 18.0 MXN/USD.",
+
+
+    // Map
+    map_title: "El sitio, en el mapa",
+    map_legend_project: "Punta Nahpu — 9 ha",
+    map_legend_poi: "Referencias del corredor",
+    nav_team: "Equipo",
+
+    // Renders
+    renders_title: "El concepto arquitectónico",
+    renders_note: "Renders preliminares del concepto (2024). El diseño final del masterplan y las villas corresponde al escenario elegido.",
+    render_1: "Casa unifamiliar tipo — 250 m², 3-4 recámaras, alberca privada",
+    render_2: "Casa club — alberca, áreas sociales, coworking",
+    render_3: "Acceso único controlado, vialidades arboladas",
+
+    // Team
+    team_title: "Quién construye esto",
+    team_lede: "Los fondos respaldan operadores, no hojas de cálculo. El equipo detrás de Punta Nahpu ha entregado infraestructura comercial a escala nacional durante tres décadas.",
+    team_1_role: "Desarrollador",
+    team_1_desc: "Tres décadas desarrollando infraestructura comercial en México: 17 tiendas Costco y más de 50 centros comerciales entregados. Lidera Grupo LoPac e Inmobiliaria Mactzil.",
+    team_2_role: "Constructor",
+    team_2_desc: "Constructora con sede en Querétaro, gestión BIM integral y contratos llave en mano. Responsable de la ejecución de obra civil y residencial del proyecto.",
+    team_3_role: "Legal",
+    team_3_desc: "Asesoría legal especializada en desarrollo inmobiliario en Quintana Roo. Estructuración del régimen de condominio, fideicomisos y documentación del data room (2024).",
+    team_4_role: "Diseño (opcional)",
+    team_4_desc: "La casa de diseño italiana fundada en 1930 — Ferrari, Maserati, Cipriani Residences. Paquete de masterplan, arquitectura de villa y licencia de marca cotizado para el escenario premium.",
 
     // Chart labels
     ch_nahpu: "PUNTA NAHPU",

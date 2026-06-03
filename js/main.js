@@ -22,6 +22,32 @@ function initNav() {
   const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 40);
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+
+  // Mobile burger drawer
+  const burger = document.getElementById("navBurger");
+  const drawer = document.getElementById("navDrawer");
+  if (burger && drawer) {
+    burger.addEventListener("click", () => {
+      const open = drawer.classList.toggle("open");
+      burger.classList.toggle("open", open);
+      nav.classList.add("scrolled"); // solid bg while drawer open
+    });
+    // Close drawer when a link is tapped
+    drawer.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        drawer.classList.remove("open");
+        burger.classList.remove("open");
+      });
+    });
+  }
+
+  // Mobile language toggle mirrors the desktop one
+  const mobileToggle = document.getElementById("langToggleMobile");
+  if (mobileToggle) {
+    mobileToggle.addEventListener("click", () => {
+      setLanguage(currentLang === "en" ? "es" : "en");
+    });
+  }
 }
 
 /* ------------------------------------------------------------
