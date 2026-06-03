@@ -481,7 +481,7 @@ const I18N = {
 };
 
 // Current language state
-let currentLang = localStorage.getItem("nahpu_lang") || "en";
+let currentLang = localStorage.getItem("nahpu_lang") || "es";
 
 function t(key) {
   return (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;

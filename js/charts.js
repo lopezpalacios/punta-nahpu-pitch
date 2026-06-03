@@ -3,17 +3,17 @@
    ============================================================ */
 
 const CHART_COLORS = {
-  cream: "#ede8df",
-  creamDim: "rgba(237, 232, 223, 0.62)",
-  creamFaint: "rgba(237, 232, 223, 0.35)",
-  gold: "#c8a96e",
-  goldBright: "#dcc18c",
-  goldFill: "rgba(200, 169, 110, 0.12)",
+  cream: "#ede4d2",
+  creamDim: "rgba(237, 228, 210, 0.62)",
+  creamFaint: "rgba(237, 228, 210, 0.35)",
+  gold: "#c9a872",
+  goldBright: "#ddc193",
+  goldFill: "rgba(201, 168, 114, 0.12)",
   emerald: "#4d9670",
   emeraldBright: "#6fc294",
   emeraldFill: "rgba(77, 150, 112, 0.12)",
   red: "#c97a6e",
-  line: "rgba(237, 232, 223, 0.08)"
+  line: "rgba(237, 228, 210, 0.08)"
 };
 
 // Global Chart.js defaults — match the editorial system
@@ -27,8 +27,8 @@ Chart.defaults.plugins.legend.labels.padding = 18;
 Chart.defaults.plugins.tooltip.backgroundColor = "rgba(12, 18, 15, 0.95)";
 Chart.defaults.plugins.tooltip.borderColor = "rgba(200, 169, 110, 0.4)";
 Chart.defaults.plugins.tooltip.borderWidth = 1;
-Chart.defaults.plugins.tooltip.titleColor = "#dcc18c";
-Chart.defaults.plugins.tooltip.bodyColor = "#ede8df";
+Chart.defaults.plugins.tooltip.titleColor = "#ddc193";
+Chart.defaults.plugins.tooltip.bodyColor = "#ede4d2";
 Chart.defaults.plugins.tooltip.padding = 12;
 Chart.defaults.plugins.tooltip.cornerRadius = 2;
 Chart.defaults.plugins.tooltip.titleFont = { family: "'Spline Sans Mono', monospace", size: 12 };
@@ -54,7 +54,7 @@ function renderAppreciationChart() {
       labels: data.map(d => d.region),
       datasets: [{
         data: data.map(d => d.value),
-        backgroundColor: data.map(d => d.region === "Riviera Maya" ? CHART_COLORS.gold : "rgba(237, 232, 223, 0.15)"),
+        backgroundColor: data.map(d => d.region === "Riviera Maya" ? CHART_COLORS.gold : "rgba(237, 228, 210, 0.15)"),
         borderColor: data.map(d => d.region === "Riviera Maya" ? CHART_COLORS.goldBright : "transparent"),
         borderWidth: 1,
         barThickness: 26
@@ -97,7 +97,7 @@ function renderCompsChart() {
       labels: data.map(d => d.name),
       datasets: [{
         data: data.map(d => d.price),
-        backgroundColor: data.map(d => d.highlight ? CHART_COLORS.gold : (d.range ? CHART_COLORS.emeraldFill : "rgba(237, 232, 223, 0.15)")),
+        backgroundColor: data.map(d => d.highlight ? CHART_COLORS.gold : (d.range ? CHART_COLORS.emeraldFill : "rgba(237, 228, 210, 0.15)")),
         borderColor: data.map(d => d.highlight ? CHART_COLORS.goldBright : (d.range ? CHART_COLORS.emerald : "transparent")),
         borderWidth: 1,
         barThickness: 22
@@ -213,7 +213,7 @@ function renderJcurveChart() {
         },
         y: {
           grid: {
-            color: c => c.tick.value === 0 ? "rgba(237, 232, 223, 0.35)" : CHART_COLORS.line,
+            color: c => c.tick.value === 0 ? "rgba(237, 228, 210, 0.35)" : CHART_COLORS.line,
             lineWidth: c => c.tick.value === 0 ? 1.5 : 1
           },
           title: { display: true, text: t("ch_cum_cashflow"), color: CHART_COLORS.creamFaint },
@@ -406,7 +406,7 @@ function renderCostsChart(scnKey) {
       datasets: [{
         data: filtered.map(i => i.value / 1e6),
         backgroundColor: filtered.map((i, idx) =>
-          i.label.includes("Pininfarina") ? CHART_COLORS.gold : "rgba(237, 232, 223, " + (0.28 - idx * 0.028) + ")"),
+          i.label.includes("Pininfarina") ? CHART_COLORS.gold : "rgba(237, 228, 210, " + (0.28 - idx * 0.028) + ")"),
         borderColor: filtered.map(i => i.label.includes("Pininfarina") ? CHART_COLORS.goldBright : "transparent"),
         borderWidth: 1,
         barThickness: 28
@@ -486,7 +486,7 @@ function renderCalcChart(result) {
         },
         y: {
           grid: {
-            color: c => c.tick.value === 0 ? "rgba(237, 232, 223, 0.35)" : CHART_COLORS.line,
+            color: c => c.tick.value === 0 ? "rgba(237, 228, 210, 0.35)" : CHART_COLORS.line,
             lineWidth: c => c.tick.value === 0 ? 1.5 : 1
           },
           ticks: { callback: v => "$" + v + "M" }

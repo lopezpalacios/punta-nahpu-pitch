@@ -4,17 +4,18 @@
    ============================================================ */
 
 :root {
-  --ink: #0c120f;            /* page background — jungle charcoal */
-  --ink-2: #101813;          /* raised surface */
-  --ink-3: #16211b;          /* card surface */
-  --line: rgba(237, 232, 223, 0.08);
-  --line-strong: rgba(237, 232, 223, 0.16);
-  --cream: #ede8df;          /* primary text (logo cream) */
-  --cream-dim: rgba(237, 232, 223, 0.62);
-  --cream-faint: rgba(237, 232, 223, 0.38);
-  --gold: #c8a96e;           /* champagne gold accent */
-  --gold-bright: #dcc18c;
-  --gold-dim: rgba(200, 169, 110, 0.35);
+  /* Palette derived from the Lopac logo: bg #1a2021, wordmark #ede4d2 */
+  --ink: #131818;            /* page background — Lopac teal-charcoal, deepened */
+  --ink-2: #171d1d;          /* raised surface */
+  --ink-3: #1a2021;          /* card surface — EXACT logo background */
+  --line: rgba(237, 228, 210, 0.08);
+  --line-strong: rgba(237, 228, 210, 0.16);
+  --cream: #ede4d2;          /* primary text — EXACT logo wordmark cream */
+  --cream-dim: rgba(237, 228, 210, 0.62);
+  --cream-faint: rgba(237, 228, 210, 0.38);
+  --gold: #c9a872;           /* champagne gold accent (warmed to logo cream) */
+  --gold-bright: #ddc193;
+  --gold-dim: rgba(201, 168, 114, 0.35);
   --emerald: #4d9670;        /* caribbean emerald */
   --emerald-bright: #6fc294;
   --red-soft: #c97a6e;       /* risk / negative */
@@ -68,7 +69,7 @@ body {
 }
 .btn-gold {
   background: var(--gold);
-  color: var(--ink);
+  color: #131818;
   border-color: var(--gold);
 }
 .btn-gold:hover {
@@ -95,12 +96,12 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(12, 18, 15, 0);
+  background: rgba(19, 24, 24, 0);
   border-bottom: 1px solid transparent;
   transition: background 0.4s ease, border-color 0.4s ease;
 }
 .nav.scrolled {
-  background: rgba(12, 18, 15, 0.92);
+  background: rgba(19, 24, 24, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom-color: var(--line);
@@ -115,7 +116,18 @@ body {
   justify-content: space-between;
   gap: 24px;
 }
-.nav-brand { text-decoration: none; display: flex; flex-direction: column; line-height: 1.2; }
+.nav-brand { text-decoration: none; display: flex; align-items: center; gap: 16px; }
+.nav-logo {
+  height: 30px;
+  width: auto;
+  }
+.nav-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  padding-left: 16px;
+  border-left: 1px solid var(--line-strong);
+}
 .brand-mark {
   font-family: var(--font-display);
   font-weight: 500;
@@ -176,7 +188,7 @@ body {
   background:
     radial-gradient(ellipse 90% 60% at 50% -10%, rgba(77, 150, 112, 0.14), transparent 60%),
     radial-gradient(ellipse 70% 50% at 80% 110%, rgba(200, 169, 110, 0.08), transparent 55%),
-    linear-gradient(180deg, #0a0f0c 0%, var(--ink) 60%);
+    linear-gradient(180deg, #101515 0%, var(--ink) 60%);
 }
 .hero-grain {
   position: absolute; inset: 0;
@@ -230,7 +242,7 @@ body {
   width: 100%;
 }
 .kpi {
-  background: rgba(16, 24, 19, 0.85);
+  background: rgba(23, 29, 29, 0.85);
   backdrop-filter: blur(8px);
   padding: 28px 20px 24px;
   display: flex;
@@ -238,7 +250,7 @@ body {
   gap: 8px;
   transition: background 0.3s;
 }
-.kpi:hover { background: rgba(22, 33, 27, 0.95); }
+.kpi:hover { background: rgba(26, 32, 33, 0.95); }
 .kpi-value {
   font-size: clamp(20px, 2.2vw, 28px);
   font-weight: 600;
@@ -483,7 +495,7 @@ body {
 
 /* ============ PININFARINA REVEAL ============ */
 .section-reveal {
-  background: #0a0e0c;
+  background: #101414;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -794,7 +806,7 @@ body {
 }
 .data-table td:first-child { color: var(--gold-bright); font-family: var(--font-mono); font-weight: 600; }
 .data-table td.mono { color: var(--cream); }
-.data-table tr:hover td { background: rgba(237, 232, 223, 0.02); }
+.data-table tr:hover td { background: rgba(237, 228, 210, 0.02); }
 
 /* Waterfall */
 .waterfall-grid {
@@ -1058,7 +1070,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* ============ THE ASK ============ */
 .section-ask {
-  background: #0a0e0c;
+  background: #101414;
   border-top: 1px solid var(--line);
   overflow: hidden;
   padding: 160px 0;
@@ -1108,7 +1120,7 @@ input[type="range"]::-moz-range-thumb {
   text-align: left;
 }
 .ask-term {
-  background: rgba(16, 24, 19, 0.8);
+  background: rgba(23, 29, 29, 0.8);
   padding: 32px 28px;
   display: flex;
   flex-direction: column;
@@ -1150,7 +1162,7 @@ input[type="range"]::-moz-range-thumb {
   gap: 80px;
   align-items: start;
 }
-.footer-logo { height: 44px; width: auto; opacity: 0.9; mix-blend-mode: lighten; }
+.footer-logo { height: 44px; width: auto; opacity: 0.9; }
 .footer-brand p { font-size: 13px; color: var(--cream-faint); margin-top: 16px; }
 .footer-meta { text-align: right; }
 .footer-meta > p:first-child {

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Room — Punta Nahpu</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .dr-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 24px 80px;
+    position: relative;
+  }
+  .dr-bg {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(77, 150, 112, 0.10), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(200, 169, 110, 0.07), transparent 55%);
+    pointer-events: none;
+  }
+  .dr-card {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    background: var(--ink-3);
+    border: 1px solid var(--line);
+    padding: 56px;
+  }
+  .dr-logo { height: 40px; margin-bottom: 36px; }
+  .dr-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .dr-title {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 400;
+    margin-bottom: 14px;
+    line-height: 1.15;
+  }
+  .dr-sub { font-size: 14.5px; color: var(--cream-dim); line-height: 1.65; margin-bottom: 40px; }
+  .dr-field { display: flex; gap: 12px; margin-bottom: 16px; }
+  .dr-input {
+    flex: 1;
+    background: var(--ink);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 15px 18px;
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    outline: none;
+    transition: border-color 0.25s;
+  }
+  .dr-input:focus { border-color: var(--gold); }
+  .dr-error {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--red-soft);
+    margin-top: 14px;
+    min-height: 18px;
+  }
+  .dr-status {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--cream-faint);
+    margin-top: 14px;
+    min-height: 18px;
+  }
+  .dr-files { display: none; flex-direction: column; border: 1px solid var(--line); margin-top: 8px; }
+  .dr-file {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.25s;
+  }
+  .dr-file:last-child { border-bottom: none; }
+  .dr-file:hover { background: rgba(237, 228, 210, 0.03); }
+  .dr-file-name { font-size: 14px; color: var(--cream-dim); line-height: 1.4; }
+  .dr-file-size { font-family: var(--font-mono); font-size: 11px; color: var(--cream-faint); margin-top: 3px; }
+  .dr-dl {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    background: none;
+    border: 1px solid var(--gold-dim);
+    border-radius: var(--radius);
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .dr-dl:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+  .dr-dl:disabled { opacity: 0.4; cursor: wait; }
+  .dr-back {
+    display: inline-block;
+    margin-top: 36px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-faint);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .dr-back:hover { color: var(--gold-bright); }
+  .dr-lang {
+    position: absolute;
+    top: 28px; right: 28px;
+  }
+</style>
+</head>
+<body>
+<div class="dr-bg"></div>
+<div class="dr-wrap">
+  <div class="dr-card">
+    <button class="lang-toggle dr-lang" id="langToggle" aria-label="Cambiar idioma">
+      <span class="lang-opt" data-lang="es">ES</span>
+      <span class="lang-sep">/</span>
+      <span class="lang-opt" data-lang="en">EN</span>
+    </button>
+    <img src="assets/logo-mark.png" alt="Lopac" class="dr-logo">
+    <p class="dr-eyebrow">Punta Nahpu · Data Room</p>
+
+    <!-- Gate -->
+    <div id="gate">
+      <h1 class="dr-title" data-dr="gate_title">Acceso restringido</h1>
+      <p class="dr-sub" data-dr="gate_sub">Los documentos de este data room están cifrados (AES-256). Introduce la clave de acceso proporcionada por Grupo LoPac para descifrarlos en tu navegador.</p>
+      <div class="dr-field">
+        <input type="password" class="dr-input" id="pwInput" placeholder="Clave de acceso" autocomplete="off" autofocus>
+        <button class="btn btn-gold" id="pwSubmit" data-dr="gate_btn">Entrar</button>
+      </div>
+      <p class="dr-error" id="pwError"></p>
+    </div>
+
+    <!-- Files (shown after unlock) -->
+    <div id="room" style="display:none">
+      <h1 class="dr-title" data-dr="room_title">Documentación del proyecto</h1>
+      <p class="dr-sub" data-dr="room_sub">Los archivos se descifran localmente en tu navegador al descargarlos. Material confidencial — no redistribuir.</p>
+      <div class="dr-files" id="fileList"></div>
+      <p class="dr-status" id="dlStatus"></p>
+    </div>
+
+    <a href="index.html" class="dr-back" data-dr="back">← Volver al sitio</a>
+  </div>
+</div>
+
+<script>
+/* ============ i18n (minimal, Spanish default) ============ */
+const DR_I18N = {
+  es: {
+    gate_title: "Acceso restringido",
+    gate_sub: "Los documentos de este data room están cifrados (AES-256). Introduce la clave de acceso proporcionada por Grupo LoPac para descifrarlos en tu navegador.",
+    gate_btn: "Entrar",
+    room_title: "Documentación del proyecto",
+    room_sub: "Los archivos se descifran localmente en tu navegador al descargarlos. Material confidencial — no redistribuir.",
+    back: "← Volver al sitio",
+    wrong: "Clave incorrecta. Verifica e intenta de nuevo.",
+    deriving: "Verificando clave…",
+    download: "Descargar",
+    downloading: "Descifrando…",
+    title_attr: "Data Room — Punta Nahpu",
+    error_fetch: "Error al cargar los archivos. Recarga la página."
+  },
+  en: {
+    gate_title: "Restricted access",
+    gate_sub: "The documents in this data room are encrypted (AES-256). Enter the access key provided by Grupo LoPac to decrypt them in your browser.",
+    gate_btn: "Enter",
+    room_title: "Project documentation",
+    room_sub: "Files are decrypted locally in your browser when downloaded. Confidential material — do not redistribute.",
+    back: "← Back to site",
+    wrong: "Incorrect key. Please check and try again.",
+    deriving: "Verifying key…",
+    download: "Download",
+    downloading: "Decrypting…",
+    title_attr: "Data Room — Punta Nahpu",
+    error_fetch: "Error loading files. Please reload the page."
+  }
+};
+let drLang = localStorage.getItem("nahpu_lang") || "es";
+const dt = k => (DR_I18N[drLang] && DR_I18N[drLang][k]) || DR_I18N.es[k];
+
+function applyDrLang() {
+  document.documentElement.lang = drLang;
+  document.querySelectorAll("[data-dr]").forEach(el => { el.textContent = dt(el.getAttribute("data-dr")); });
+  document.querySelectorAll(".lang-opt").forEach(o => o.classList.toggle("active", o.dataset.lang === drLang));
+  document.getElementById("pwInput").placeholder = drLang === "es" ? "Clave de acceso" : "Access key";
+}
+
+document.getElementById("langToggle").addEventListener("click", () => {
+  drLang = drLang === "es" ? "en" : "es";
+  localStorage.setItem("nahpu_lang", drLang);
+  applyDrLang();
+  if (unlocked) renderFiles();
+});
+
+/* ============ Crypto ============ */
+const PBKDF2_ITERATIONS = 600000;
+let cryptoKey = null;
+let manifest = null;
+let unlocked = false;
+
+async function deriveKey(password, salt) {
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations: PBKDF2_ITERATIONS, hash: "SHA-256" },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+}
+
+async function decryptBlob(key, data) {
+  const iv = data.slice(0, 12);
+  const ciphertext = data.slice(12);
+  return crypto.subtle.decrypt({ name: "AES-GCM", iv: new Uint8Array(iv) }, key, ciphertext);
+}
+
+async function tryUnlock() {
+  const pw = document.getElementById("pwInput").value;
+  const errEl = document.getElementById("pwError");
+  const btn = document.getElementById("pwSubmit");
+  if (!pw) return;
+  errEl.textContent = dt("deriving");
+  errEl.style.color = "var(--cream-faint)";
+  btn.disabled = true;
+
+  try {
+    const [saltBuf, manifestBuf] = await Promise.all([
+      fetch("dataroom/salt.bin").then(r => r.arrayBuffer()),
+      fetch("dataroom/manifest.enc").then(r => r.arrayBuffer())
+    ]);
+    const key = await deriveKey(pw, new Uint8Array(saltBuf));
+    // Decrypting the manifest IS the password check — AES-GCM auth fails on wrong key
+    const manifestData = await decryptBlob(key, manifestBuf);
+    manifest = JSON.parse(new TextDecoder().decode(manifestData));
+    cryptoKey = key;
+    unlocked = true;
+    sessionStorage.setItem("nahpu_dr", pw);  // re-unlock within the session
+    showRoom();
+  } catch (e) {
+    errEl.textContent = dt("wrong");
+    errEl.style.color = "var(--red-soft)";
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function showRoom() {
+  document.getElementById("gate").style.display = "none";
+  document.getElementById("room").style.display = "block";
+  renderFiles();
+}
+
+function renderFiles() {
+  const list = document.getElementById("fileList");
+  list.style.display = "flex";
+  list.innerHTML = "";
+  manifest.forEach((f, i) => {
+    const row = document.createElement("div");
+    row.className = "dr-file";
+    const nameKey = drLang === "es" ? "name_es" : "name_en";
+    row.innerHTML = `
+      <div>
+        <div class="dr-file-name">${f[nameKey]}</div>
+        <div class="dr-file-size">${(f.size / 1024).toFixed(0)} KB</div>
+      </div>
+      <button class="dr-dl" data-idx="${i}">${dt("download")}</button>
+    `;
+    list.appendChild(row);
+  });
+  list.querySelectorAll(".dr-dl").forEach(btn => {
+    btn.addEventListener("click", () => downloadFile(Number(btn.dataset.idx), btn));
+  });
+}
+
+async function downloadFile(idx, btn) {
+  const f = manifest[idx];
+  const orig = btn.textContent;
+  btn.textContent = dt("downloading");
+  btn.disabled = true;
+  try {
+    const encData = await fetch("dataroom/" + f.blob).then(r => r.arrayBuffer());
+    const plain = await decryptBlob(cryptoKey, encData);
+    const blob = new Blob([plain]);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = f.filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  } catch (e) {
+    document.getElementById("dlStatus").textContent = dt("error_fetch");
+  } finally {
+    btn.textContent = orig;
+    btn.disabled = false;
+  }
+}
+
+document.getElementById("pwSubmit").addEventListener("click", tryUnlock);
+document.getElementById("pwInput").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+applyDrLang();
+
+// Auto-unlock if already authenticated this session
+(async () => {
+  const saved = sessionStorage.getItem("nahpu_dr");
+  if (saved) {
+    document.getElementById("pwInput").value = saved;
+    await tryUnlock();
+    document.getElementById("pwInput").value = "";
+  }
+})();
+</script>
+</body>
+</html>
