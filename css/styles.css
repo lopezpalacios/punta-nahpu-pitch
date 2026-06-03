@@ -1238,15 +1238,69 @@ input[type="range"]::-moz-range-thumb {
 
 /* ============ INTERACTIVE MAP ============ */
 .map-block { margin-bottom: 110px; }
+.map-hint {
+  font-size: 14px;
+  color: var(--cream-faint);
+  margin: 0 0 32px;
+}
+.map-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0;
+  border: 1px solid var(--line);
+}
+.map-sidebar {
+  background: var(--ink-3);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  max-height: 600px;
+  overflow-y: auto;
+}
+.map-poi-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.25s;
+  font-family: var(--font-body);
+}
+.map-poi-row:hover { background: rgba(237, 228, 210, 0.04); }
+.map-poi-row.active {
+  background: rgba(201, 168, 114, 0.12);
+  border-left: 2px solid var(--gold);
+}
+.map-poi-row-all {
+  grid-template-columns: 1fr auto;
+  background: rgba(201, 168, 114, 0.06);
+}
+.map-poi-row-all .map-poi-name { color: var(--gold-bright); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.map-poi-icon { font-size: 19px; }
+.map-poi-name { font-size: 14px; color: var(--cream); line-height: 1.35; }
+.map-poi-dist {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold-bright);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.map-poi-dist small { font-size: 10.5px; color: var(--cream-faint); font-weight: 400; }
 .map-frame {
   position: relative;
-  border: 1px solid var(--line);
   background: var(--ink-3);
 }
 #projectMap {
-  height: 520px;
+  height: 547px;
   width: 100%;
-  background: #0e1313;
+  background: #d8e0d8;
   z-index: 1;
 }
 .map-legend {
@@ -1304,13 +1358,13 @@ input[type="range"]::-moz-range-thumb {
 .map-marker-project { position: relative; }
 .map-pin {
   position: absolute; inset: 4px;
-  background: var(--gold);
+  background: #a8842e;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--ink), 0 0 16px rgba(201, 168, 114, 0.8);
+  box-shadow: 0 0 0 2.5px #fff, 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 .map-pulse {
   position: absolute; inset: -8px;
-  border: 2px solid var(--gold);
+  border: 2px solid #a8842e;
   border-radius: 50%;
   animation: mapPulse 2.4s ease-out infinite;
 }
@@ -1318,11 +1372,33 @@ input[type="range"]::-moz-range-thumb {
   0% { transform: scale(0.5); opacity: 0.9; }
   100% { transform: scale(1.8); opacity: 0; }
 }
-.map-poi-dot {
-  width: 10px; height: 10px;
-  background: var(--cream-dim);
+/* POI chips on color map: white circle + emoji */
+.map-poi-chip {
+  width: 30px; height: 30px;
+  background: #fff;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(19, 24, 24, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.map-poi-chip:hover { transform: scale(1.15); }
+/* Distance label on route line */
+.map-dist-label span {
+  display: inline-block;
+  background: #1a2021;
+  color: #ddc193;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 2px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 /* ============ PININFARINA LOGO ============ */
@@ -1412,12 +1488,18 @@ input[type="range"]::-moz-range-thumb {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--line);
-  padding: 12px 24px 28px;
+  padding: 0 24px;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  visibility: hidden;
+  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), padding 0.45s, visibility 0s 0.45s;
 }
-.nav-drawer.open { max-height: 480px; }
+.nav-drawer.open {
+  max-height: 520px;
+  padding: 12px 24px 28px;
+  visibility: visible;
+  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), padding 0.45s, visibility 0s;
+}
 .nav-drawer a {
   color: var(--cream-dim);
   text-decoration: none;
@@ -1433,7 +1515,9 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   padding-top: 22px;
   gap: 16px;
+  flex-wrap: wrap;
 }
+.nav-drawer-actions .btn { flex: 1; text-align: center; min-width: 140px; }
 .nav-burger {
   background: none;
   border: none;
@@ -1459,6 +1543,7 @@ input[type="range"]::-moz-range-thumb {
 /* ============ MOBILE REFINEMENTS ============ */
 @media (max-width: 1080px) {
   .renders-grid { grid-template-columns: 1fr; }
+  .map-layout { grid-template-columns: 280px 1fr; }
   #projectMap { height: 440px; }
 }
 
@@ -1480,8 +1565,17 @@ input[type="range"]::-moz-range-thumb {
   .kpi-disclaimer { font-size: 10px; padding: 0 8px; }
 
   /* Map on mobile */
+  .map-layout { grid-template-columns: 1fr; }
+  .map-sidebar {
+    max-height: 240px;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    order: 2;
+  }
+  .map-frame { order: 1; }
   #projectMap { height: 360px; }
   .map-legend { gap: 16px; padding: 14px 18px; }
+  .map-poi-row { padding: 12px 18px; }
 
   /* Team / sections */
   .team-grid { grid-template-columns: 1fr; }
@@ -1621,4 +1715,60 @@ input[type="range"]::-moz-range-thumb {
   .pf-gallery-tall, .pf-gallery-wide { grid-row: auto; grid-column: auto; }
   .pf-portfolio-list { gap: 14px 28px; }
   .pf-portfolio-list span { font-size: 18px; }
+}
+
+
+/* ============ MOBILE OVERFLOW FIXES (UX audit) ============ */
+@media (max-width: 720px) {
+  body { overflow-x: hidden; }
+  /* Gate + data room: stack input and button vertically, full-width CTA */
+  .dr-field, .gate-field { flex-direction: column; }
+  .dr-field .btn, .gate-field .btn { width: 100%; }
+  /* Containers never touch the right edge */
+  .calc-output-grid, .kpi-strip, .fin-headline { width: 100%; }
+  .calc-output { min-width: 0; }
+  .kpi { min-width: 0; }
+  /* Reset button: keep on one line */
+  #calcReset { font-size: 11px; padding: 12px 16px; }
+}
+
+
+/* ============ ASK: scarcity + steps (conversion audit) ============ */
+.ask-scarcity {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--gold-bright);
+  margin-bottom: 36px;
+}
+.ask-steps {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.ask-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--cream-dim);
+  max-width: 240px;
+  text-align: left;
+}
+.ask-step .mono {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-bright);
+  font-size: 13px;
+}
+@media (max-width: 720px) {
+  .ask-steps { flex-direction: column; align-items: center; gap: 18px; }
+  .ask-step { max-width: 100%; }
 }

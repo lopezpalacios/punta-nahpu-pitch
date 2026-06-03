@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Punta Nahpu — 141 Residencias de Autor · Riviera Maya</title>
-<meta name="description" content="Punta Nahpu: 141 residencias de autor en Punta Maroma, Riviera Maya. Oportunidad de inversión institucional — TIR 22.7–24.5%, MOIC 2.36–2.50×.">
-<meta property="og:title" content="Punta Nahpu — Oportunidad de Inversión en la Riviera Maya">
-<meta property="og:description" content="141 residencias de autor · Punta Maroma · TIR 22.7–24.5% · MOIC 2.36–2.50×">
+<title>Punta Nahpu — Riviera Maya</title>
+<meta name="description" content="Punta Nahpu — Desarrollo residencial en la Riviera Maya. Acceso para inversionistas.">
+<meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,854 +14,242 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  .gate-wrap {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(77, 150, 112, 0.10), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 110%, rgba(201, 168, 114, 0.07), transparent 55%),
+      var(--ink);
+    z-index: 9999;
+    transition: opacity 0.6s ease;
+  }
+  .gate-wrap.unlocking { opacity: 0; pointer-events: none; }
+  .gate-card {
+    width: 100%; max-width: 480px;
+    background: var(--ink-3);
+    border: 1px solid var(--line);
+    padding: 56px 48px;
+    text-align: center;
+  }
+  .gate-logo { height: 38px; margin-bottom: 16px; }
+  .gate-brand {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+  .gate-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 40px;
+  }
+  .gate-text { font-size: 14px; color: var(--cream-dim); line-height: 1.6; margin-bottom: 32px; }
+  .gate-field { display: flex; gap: 10px; }
+  .gate-input {
+    flex: 1;
+    background: var(--ink);
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    padding: 14px 16px;
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    outline: none;
+    transition: border-color 0.25s;
+    text-align: center;
+  }
+  .gate-input:focus { border-color: var(--gold); }
+  .gate-msg {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-top: 16px;
+    min-height: 18px;
+    color: var(--cream-faint);
+  }
+  .gate-msg.error { color: var(--red-soft); }
+  .gate-foot {
+    margin-top: 32px;
+    font-size: 11px;
+    color: var(--cream-faint);
+    line-height: 1.6;
+  }
+  .gate-card-wide { max-width: 560px; }
+  .gate-thesis {
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--cream);
+    margin-bottom: 28px;
+  }
+  .gate-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 20px;
+  }
+  .gate-kpi {
+    background: var(--ink);
+    padding: 14px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .gate-kpi .mono { font-size: 14.5px; font-weight: 600; color: var(--gold-bright); }
+  .gate-kpi small { font-size: 9.5px; color: var(--cream-faint); letter-spacing: 0.04em; }
+  .gate-trust {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--cream-dim);
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .gate-request {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--gold-bright);
+    text-decoration: none;
+  }
+  .gate-request:hover { text-decoration: underline; }
+  @media (max-width: 520px) {
+    .gate-card { padding: 40px 28px; }
+    .gate-kpis { grid-template-columns: repeat(2, 1fr); }
+    .gate-field { flex-direction: column; }
+    .gate-field .btn { width: 100%; }
+  }
+</style>
 </head>
 <body>
+<div class="gate-wrap" id="gate">
+  <div class="gate-card gate-card-wide">
+    <img src="assets/logo-mark.png" alt="Lopac" class="gate-logo">
+    <div class="gate-brand">PUNTA NAHPU</div>
+    <div class="gate-sub">Riviera Maya · México</div>
 
-<!-- ============ NAV ============ -->
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#top" class="nav-brand">
-      <img src="assets/logo-mark.png" alt="Lopac" class="nav-logo">
-      <span class="nav-brand-text">
-        <span class="brand-mark">PUNTA NAHPU</span>
-        <span class="brand-sub" data-i18n="nav_brand_sub">Riviera Maya · México</span>
-      </span>
-    </a>
-    <nav class="nav-links">
-      <a href="#corridor" data-i18n="nav_location">The Corridor</a>
-      <a href="#pininfarina" data-i18n="nav_design">Pininfarina</a>
-      <a href="#blueprint" data-i18n="nav_blueprint">Blueprint</a>
-      <a href="#financials" data-i18n="nav_financials">Financials</a>
-      <a href="#calculator" data-i18n="nav_calculator">Calculator</a>
-      <a href="#risk" data-i18n="nav_risk">Risk</a>
-      <a href="#team" data-i18n="nav_team">Team</a>
-    </nav>
-    <div class="nav-actions">
-      <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">
-        <span class="lang-opt active" data-lang="es">ES</span>
-        <span class="lang-sep">/</span>
-        <span class="lang-opt" data-lang="en">EN</span>
-      </button>
-      <a href="dataroom.html" class="btn btn-gold btn-sm" data-i18n="nav_cta">Data Room</a>
+    <!-- Teaser: the thesis is visible BEFORE the password -->
+    <p class="gate-thesis">141 residencias de autor en el corredor Mayakoba.<br>Un solo socio capitalista.</p>
+    <div class="gate-kpis">
+      <div class="gate-kpi"><span class="mono">22.7–24.5%</span><small>TIR anual</small></div>
+      <div class="gate-kpi"><span class="mono">2.36–2.50×</span><small>Múltiplo (MOIC)</small></div>
+      <div class="gate-kpi"><span class="mono">$100–105M</span><small>MXN en tramos</small></div>
+      <div class="gate-kpi"><span class="mono">3.5 años</span><small>Recuperación</small></div>
     </div>
-    <button class="nav-burger" id="navBurger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <p class="gate-trust">Respaldado por el desarrollador de 17 tiendas Costco y 50+ centros comerciales en México · Título de 9 ha en mano · CUS y MIA elaboradas</p>
+
+    <div class="gate-field">
+      <input type="password" class="gate-input" id="gatePw" placeholder="Clave de acceso" autocomplete="off" autofocus>
+      <button class="btn btn-gold" id="gateBtn">Entrar</button>
+    </div>
+    <p class="gate-msg" id="gateMsg"></p>
+    <a class="gate-request" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AFondo%20%2F%20Empresa%3A%0ATel%C3%A9fono%3A">¿No tienes clave? Solicitar acceso →</a>
+    <p class="gate-foot">Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.<br>Contenido cifrado — AES-256</p>
   </div>
-  <!-- Mobile drawer -->
-  <div class="nav-drawer" id="navDrawer">
-    <a href="#corridor" data-i18n="nav_location">The Corridor</a>
-    <a href="#pininfarina" data-i18n="nav_design">Pininfarina</a>
-    <a href="#blueprint" data-i18n="nav_blueprint">Blueprint</a>
-    <a href="#financials" data-i18n="nav_financials">Financials</a>
-    <a href="#calculator" data-i18n="nav_calculator">Calculator</a>
-    <a href="#risk" data-i18n="nav_risk">Risk</a>
-    <a href="#team" data-i18n="nav_team">Equipo</a>
-    <div class="nav-drawer-actions">
-      <button class="lang-toggle" id="langToggleMobile">
-        <span class="lang-opt active" data-lang="es">ES</span>
-        <span class="lang-sep">/</span>
-        <span class="lang-opt" data-lang="en">EN</span>
-      </button>
-      <a href="dataroom.html" class="btn btn-gold btn-sm" data-i18n="nav_cta">Data Room</a>
-    </div>
-  </div>
-</header>
+</div>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <div class="hero-bg">
-    <div class="hero-photo" style="background-image:url('assets/render-pool.jpg')"></div>
-    <div class="hero-gradient"></div>
-    <div class="hero-grain"></div>
-    <svg class="hero-topo" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g fill="none" stroke="rgba(201,168,114,0.07)" stroke-width="1.2">
-        <path d="M-100,700 C200,640 400,760 720,690 C1040,620 1240,720 1540,660"/>
-        <path d="M-100,640 C220,580 420,700 720,630 C1020,560 1220,660 1540,600"/>
-        <path d="M-100,580 C240,520 440,640 720,570 C1000,500 1200,600 1540,540"/>
-        <path d="M-100,520 C260,460 460,580 720,510 C980,440 1180,540 1540,480"/>
-        <path d="M-100,460 C280,400 480,520 720,450 C960,380 1160,480 1540,420"/>
-        <path d="M-100,400 C300,340 500,460 720,390 C940,320 1140,420 1540,360"/>
-      </g>
-    </svg>
-  </div>
-  <div class="hero-content">
-    <p class="hero-eyebrow reveal" data-i18n="hero_eyebrow">Punta Maroma · Riviera Maya · Quintana Roo</p>
-    <h1 class="hero-title reveal d1">
-      <span data-i18n="hero_title_1">Own the Riviera Maya</span><br>
-      <em data-i18n="hero_title_2">before it owns the headlines.</em>
-    </h1>
-    <p class="hero-sub reveal d2" data-i18n="hero_sub">Punta Nahpu — 141 designer residences on nine hectares at Punta Maroma, where the Maya Train, the reef and the fastest-growing coast in the Americas converge.</p>
-    <div class="hero-ctas reveal d3">
-      <a href="#financials" class="btn btn-gold" data-i18n="hero_cta_1">View the Numbers</a>
-      <a href="#calculator" class="btn btn-ghost" data-i18n="hero_cta_2">Run Your Own Scenario</a>
-    </div>
-  </div>
+<script>
+(function () {
+  var ITER = 600000;
+  var unlocking = false;
 
-  <!-- KPI strip — institutional checklist above the fold -->
-  <div class="kpi-strip reveal d4">
-    <div class="kpi">
-      <span class="kpi-value mono">22.7<span class="kpi-dash">–</span>24.5<span class="kpi-unit">%</span></span>
-      <span class="kpi-label" data-i18n="kpi_irr">Investor IRR (annual)</span>
-    </div>
-    <div class="kpi">
-      <span class="kpi-value mono">2.36<span class="kpi-dash">–</span>2.50<span class="kpi-unit">×</span></span>
-      <span class="kpi-label" data-i18n="kpi_moic">Equity Multiple (MOIC)</span>
-    </div>
-    <div class="kpi">
-      <span class="kpi-value mono">$100<span class="kpi-dash">–</span>105<span class="kpi-unit">M</span></span>
-      <span class="kpi-label" data-i18n="kpi_raise">Capital Raise (MXN, tranched)</span>
-    </div>
-    <div class="kpi">
-      <span class="kpi-value mono">3.4<span class="kpi-dash">–</span>3.5<span class="kpi-unit">yrs</span></span>
-      <span class="kpi-label" data-i18n="kpi_payback">Investor Payback</span>
-    </div>
-    <div class="kpi">
-      <span class="kpi-value mono">$509<span class="kpi-dash">–</span>578<span class="kpi-unit">M</span></span>
-      <span class="kpi-label" data-i18n="kpi_profit">Net Project Profit (MXN)</span>
-    </div>
-  </div>
-  <p class="kpi-disclaimer reveal d5" data-i18n="kpi_disclaimer">Base-case figures, net of all fees, commissions and royalties · Downside scenarios modeled below · Figures as of May 2026</p>
-</section>
+  function deriveKey(password, salt) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]).then(function (km) {
+      return crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: salt, iterations: ITER, hash: "SHA-256" },
+        km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
+      );
+    });
+  }
 
-<!-- ============ POSITIONING BAR ============ -->
-<section class="position-bar">
-  <div class="container">
-    <p class="position-statement">
-      <span data-i18n="position_1">141 homes</span> ·
-      <span data-i18n="position_2">presold during construction</span> ·
-      <span data-i18n="position_3">30 minutes from Cancún International</span> ·
-      <span data-i18n="position_4">zero bank debt</span>
-    </p>
-  </div>
-</section>
+  function loadScriptCode(code) {
+    return new Promise(function (resolve, reject) {
+      var blob = new Blob([code], { type: "text/javascript" });
+      var url = URL.createObjectURL(blob);
+      var s = document.createElement("script");
+      s.src = url;
+      s.onload = function () { URL.revokeObjectURL(url); resolve(); };
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
 
-<!-- ============ THE CORRIDOR (LOCATION) ============ -->
-<section class="section" id="corridor">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">01</span>
-      <div>
-        <h2 class="section-title" data-i18n="corridor_title">The last quiet stretch of the corridor</h2>
-        <p class="section-lede" data-i18n="corridor_lede">Punta Maroma sits in the geographic heart of the Riviera Maya — between Cancún and Playa del Carmen, beside Mayakoba and Maroma Beach, on the coast that leads Mexico in property appreciation. Land here does not refill.</p>
-      </div>
-    </div>
+  function boot(payload) {
+    // Inject the real site
+    var gateEl = document.getElementById("gate");
+    gateEl.classList.add("unlocking");
+    setTimeout(function () {
+      document.body.innerHTML = payload.html;
+      // Load scripts sequentially, then fire DOMContentLoaded for their init hooks
+      var chain = Promise.resolve();
+      payload.scripts.forEach(function (code) {
+        chain = chain.then(function () { return loadScriptCode(code); });
+      });
+      chain.then(function () {
+        document.dispatchEvent(new Event("DOMContentLoaded"));
+        window.dispatchEvent(new Event("load"));
+      });
+    }, 450);
+  }
 
-    <!-- Proximity grid -->
-    <div class="prox-grid">
-      <div class="prox-card">
-        <span class="prox-time mono">30<small>min</small></span>
-        <span class="prox-dest" data-i18n="prox_airport">Cancún International Airport</span>
-        <span class="prox-km mono">35 km</span>
-      </div>
-      <div class="prox-card">
-        <span class="prox-time mono">4<small>min</small></span>
-        <span class="prox-dest" data-i18n="prox_mayakoba">Mayakoba · Etéreo Auberge</span>
-        <span class="prox-km mono">5 km</span>
-      </div>
-      <div class="prox-card">
-        <span class="prox-time mono">9<small>min</small></span>
-        <span class="prox-dest" data-i18n="prox_playa">Playa del Carmen</span>
-        <span class="prox-km mono">11 km</span>
-      </div>
-      <div class="prox-card">
-        <span class="prox-time mono">12<small>min</small></span>
-        <span class="prox-dest" data-i18n="prox_tren">Maya Train Station</span>
-        <span class="prox-km mono">12 km</span>
-      </div>
-      <div class="prox-card">
-        <span class="prox-time mono">10<small>min</small></span>
-        <span class="prox-dest" data-i18n="prox_pm">Puerto Morelos · Reef Park</span>
-        <span class="prox-km mono">10 km</span>
-      </div>
-    </div>
+  function attempt(pw, silent) {
+    if (unlocking || !pw) return;
+    unlocking = true;
+    var msg = document.getElementById("gateMsg");
+    var btn = document.getElementById("gateBtn");
+    msg.textContent = "Verificando…";
+    msg.classList.remove("error");
+    btn.disabled = true;
 
+    fetch("app.enc").then(function (r) { return r.arrayBuffer(); }).then(function (buf) {
+      var data = new Uint8Array(buf);
+      var salt = data.slice(0, 16);
+      var iv = data.slice(16, 28);
+      var ct = data.slice(28);
+      return deriveKey(pw, salt).then(function (key) {
+        return crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ct);
+      });
+    }).then(function (plain) {
+      var payload = JSON.parse(new TextDecoder().decode(plain));
+      try { sessionStorage.setItem("nahpu_site", pw); } catch (e) {}
+      boot(payload);
+    }).catch(function () {
+      unlocking = false;
+      btn.disabled = false;
+      if (!silent) {
+        msg.textContent = "Clave incorrecta. Verifica e intenta de nuevo.";
+        msg.classList.add("error");
+      } else {
+        msg.textContent = "";
+        try { sessionStorage.removeItem("nahpu_site"); } catch (e) {}
+      }
+    });
+  }
 
-    <!-- Interactive map -->
-    <div class="map-block">
-      <h3 class="block-title" data-i18n="map_title">El sitio, en el mapa</h3>
-      <div class="map-frame">
-        <div id="projectMap"></div>
-        <div class="map-legend">
-          <span class="map-legend-item"><span class="map-dot map-dot-gold"></span> <span data-i18n="map_legend_project">Punta Nahpu — 9 ha</span></span>
-          <span class="map-legend-item"><span class="map-dot map-dot-cream"></span> <span data-i18n="map_legend_poi">Referencias del corredor</span></span>
-        </div>
-      </div>
-    </div>
+  document.getElementById("gateBtn").addEventListener("click", function () {
+    attempt(document.getElementById("gatePw").value, false);
+  });
+  document.getElementById("gatePw").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") attempt(document.getElementById("gatePw").value, false);
+  });
 
-    <!-- Market momentum -->
-    <div class="momentum">
-      <div class="momentum-stats">
-        <h3 class="block-title" data-i18n="momentum_title">A trend already in motion</h3>
-        <div class="stat-rows">
-          <div class="stat-row">
-            <span class="stat-big mono">14<small>%</small></span>
-            <div>
-              <span class="stat-name" data-i18n="stat_appreciation">Quintana Roo property appreciation, 2024</span>
-              <span class="stat-src" data-i18n="stat_appreciation_src">Leads all of Mexico — Sociedad Hipotecaria Federal</span>
-            </div>
-          </div>
-          <div class="stat-row">
-            <span class="stat-big mono">20.8<small>M</small></span>
-            <div>
-              <span class="stat-name" data-i18n="stat_tourists">Tourists in Quintana Roo, 2025</span>
-              <span class="stat-src" data-i18n="stat_tourists_src">Hotel occupancy 88–89% · lodging tax +17% YoY</span>
-            </div>
-          </div>
-          <div class="stat-row">
-            <span class="stat-big mono">7.9<small>%</small></span>
-            <div>
-              <span class="stat-name" data-i18n="stat_population">Annual population growth, Solidaridad</span>
-              <span class="stat-src" data-i18n="stat_population_src">vs. 1.2% national average — 6× faster</span>
-            </div>
-          </div>
-          <div class="stat-row">
-            <span class="stat-big mono">31.5<small>M</small></span>
-            <div>
-              <span class="stat-name" data-i18n="stat_airport">Cancún Airport passengers, 2025</span>
-              <span class="stat-src" data-i18n="stat_airport_src">The second-busiest airport in Latin America</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="momentum-chart">
-        <h4 class="chart-title" data-i18n="chart_appreciation_title">Property appreciation by region, 2024</h4>
-        <div class="chart-wrap"><canvas id="chartAppreciation"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Comparables positioning -->
-    <div class="comps">
-      <div class="comps-text">
-        <h3 class="block-title" data-i18n="comps_title">Priced below the corridor it belongs to</h3>
-        <p data-i18n="comps_text">Punta Nahpu enters at $42,000 MXN/m² — between Grand Coral and Playacar — while sitting geographically inside the Mayakoba / North Corridor, where comparable homes trade at $65,000–105,000 MXN/m². The gap is the upside.</p>
-        <div class="comps-callout">
-          <span class="mono comps-callout-num">+55%</span>
-          <span data-i18n="comps_callout">price headroom to the nearest geographic comparable</span>
-        </div>
-      </div>
-      <div class="comps-chart">
-        <h4 class="chart-title" data-i18n="chart_comps_title">Sale price by development (MXN/m²)</h4>
-        <div class="chart-wrap chart-tall"><canvas id="chartComps"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Lifestyle vignettes -->
-    <div class="vignettes">
-      <h3 class="block-title centered" data-i18n="vignettes_title">What buyers are actually buying</h3>
-      <div class="vignette-grid">
-        <article class="vignette">
-          <span class="vignette-num mono">I</span>
-          <h4 data-i18n="vig_1_title">The seven-minute reef</h4>
-          <p data-i18n="vig_1_text">Coffee on the terrace at 7:00, snorkeling the National Reef Park by 7:15. The second-largest reef on Earth is the backyard.</p>
-        </article>
-        <article class="vignette">
-          <span class="vignette-num mono">II</span>
-          <h4 data-i18n="vig_2_title">The cenote at golden hour</h4>
-          <p data-i18n="vig_2_text">The Ruta de los Cenotes as a weekend ritual — freshwater caverns ten thousand years old, fifteen minutes from the gate.</p>
-        </article>
-        <article class="vignette">
-          <span class="vignette-num mono">III</span>
-          <h4 data-i18n="vig_3_title">The fishing-village dinner</h4>
-          <p data-i18n="vig_3_text">Whole fish on the zócalo of Puerto Morelos, boats coming in at dusk. The Riviera Maya that remembers itself.</p>
-        </article>
-        <article class="vignette">
-          <span class="vignette-num mono">IV</span>
-          <h4 data-i18n="vig_4_title">The arrival</h4>
-          <p data-i18n="vig_4_text">Wheels down in Cancún, home in thirty minutes. No two-hour Tulum transfer. More days, less driving.</p>
-        </article>
-        <article class="vignette">
-          <span class="vignette-num mono">V</span>
-          <h4 data-i18n="vig_5_title">The design moment</h4>
-          <p data-i18n="vig_5_text">Morning light moving across a façade drawn by the studio that shaped Ferrari — framing a view of jungle canopy.</p>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PININFARINA REVEAL ============ -->
-<section class="section section-reveal" id="pininfarina">
-  <div class="reveal-bg" aria-hidden="true"></div>
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono section-num-light">02</span>
-      <div>
-        <p class="reveal-eyebrow" data-i18n="pf_eyebrow">The differentiator</p>
-        <img src="assets/pininfarina.svg" alt="Pininfarina" class="pf-logo">
-        <h2 class="section-title section-title-xl" data-i18n="pf_title">The studio behind Ferrari can design this neighborhood.</h2>
-        <p class="section-lede" data-i18n="pf_lede">Pininfarina — the Italian house that shaped Ferrari, Maserati and Cipriani Residences — has scoped a full design package for Punta Nahpu: masterplan, villa architecture, show home interiors and global brand licensing. It is not decoration. It is a priced option with its own P&L.</p>
-      </div>
-    </div>
-
-    <div class="pf-economics">
-      <div class="pf-col pf-col-cost">
-        <h4 class="pf-col-title" data-i18n="pf_cost_title">What it costs</h4>
-        <ul class="pf-list">
-          <li><span class="mono">$520K</span> <span data-i18n="pf_cost_1">USD — masterplan, villa architecture</span></li>
-          <li><span class="mono">$250K</span> <span data-i18n="pf_cost_2">USD — "Design by Pininfarina" licensing</span></li>
-          <li><span class="mono">$240K</span> <span data-i18n="pf_cost_3">USD — renders, marketing kit, show-home interiors, expenses</span></li>
-          <li><span class="mono">3%</span> <span data-i18n="pf_cost_4">royalty on every sale, paid at closing</span></li>
-        </ul>
-        <p class="pf-total"><span data-i18n="pf_cost_total">Total cost over project life:</span> <span class="mono">$67.0M MXN</span></p>
-      </div>
-      <div class="pf-arrow" aria-hidden="true">→</div>
-      <div class="pf-col pf-col-gain">
-        <h4 class="pf-col-title" data-i18n="pf_gain_title">What it returns</h4>
-        <ul class="pf-list">
-          <li><span class="mono">+10%</span> <span data-i18n="pf_gain_1">sale price — $42,000 → $46,200 MXN/m²</span></li>
-          <li><span class="mono">+36%</span> <span data-i18n="pf_gain_2">absorption velocity — 2.35 → 3.2 homes/month</span></li>
-          <li><span class="mono">−15</span> <span data-i18n="pf_gain_3">months of sell-out time — faster capital return</span></li>
-          <li><span class="mono">+$68M</span> <span data-i18n="pf_gain_4">MXN net profit after every Pininfarina fee and royalty</span></li>
-        </ul>
-        <p class="pf-total"><span data-i18n="pf_gain_total">Investor IRR improvement:</span> <span class="mono">+1.8 pts</span></p>
-      </div>
-    </div>
-
-
-    <!-- Design language mood gallery -->
-    <div class="pf-gallery">
-      <h3 class="block-title" data-i18n="pf_gallery_title">El lenguaje de diseño, en el trópico</h3>
-      <div class="pf-gallery-grid">
-        <figure class="pf-gallery-item pf-gallery-tall">
-          <img src="assets/pf-mood-1.jpg" alt="Arquitectura residencial de lujo tropical" loading="lazy">
-        </figure>
-        <figure class="pf-gallery-item">
-          <img src="assets/pf-mood-2.jpg" alt="Resort tropical de lujo" loading="lazy">
-        </figure>
-        <figure class="pf-gallery-item">
-          <img src="assets/pf-mood-3.jpg" alt="Mar Caribe turquesa" loading="lazy">
-        </figure>
-        <figure class="pf-gallery-item pf-gallery-wide">
-          <img src="assets/pf-mood-4.jpg" alt="Villa de diseño contemporáneo" loading="lazy">
-        </figure>
-      </div>
-      <p class="pf-gallery-caption" data-i18n="pf_gallery_caption">Imágenes de referencia del lenguaje arquitectónico y el entorno. El diseño final de Punta Nahpu se desarrolla bajo la dirección del escenario elegido.</p>
-
-      <!-- Real Pininfarina developments -->
-      <div class="pf-portfolio">
-        <span class="pf-portfolio-label" data-i18n="pf_portfolio_label">Desarrollos residenciales firmados por Pininfarina</span>
-        <div class="pf-portfolio-list">
-          <span>Cipriani Residences <em>Miami</em></span>
-          <span>Vista Tower <em>Chicago</em></span>
-          <span>Ferra <em>Singapur</em></span>
-          <span>Cyrela <em>São Paulo</em></span>
-          <span>Armani/Casa Residences <em>Sunny Isles</em></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="pf-breakeven">
-      <div class="pf-breakeven-bar">
-        <div class="pf-be-track">
-          <div class="pf-be-fill" style="width:48%"></div>
-          <div class="pf-be-marker" style="left:48%"><span class="mono">4.8%</span><span data-i18n="pf_be_marker">break-even premium</span></div>
-          <div class="pf-be-marker pf-be-marker-plan" style="left:100%"><span class="mono">10%</span><span data-i18n="pf_be_plan">planned premium</span></div>
-        </div>
-      </div>
-      <p class="pf-breakeven-note" data-i18n="pf_be_note">The brand premium only needs to reach 4.8% for the Pininfarina plan to break even against the base plan. The plan assumes 10% — a 5.2-point safety margin. Below 4.8%, the option is simply not exercised: the base plan stands on its own.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BLUEPRINT ============ -->
-<section class="section" id="blueprint">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">03</span>
-      <div>
-        <h2 class="section-title" data-i18n="bp_title">Nine hectares, drawn with restraint</h2>
-        <p class="section-lede" data-i18n="bp_lede">141 single-family homes of 250 m² on 9 hectares fronting the federal highway — at 15.7 homes per hectare against a permitted density of 20. Three quarters of the land stays green.</p>
-      </div>
-    </div>
-
-    <div class="bp-layout">
-      <!-- Land allocation visual -->
-      <div class="bp-land">
-        <h4 class="chart-title" data-i18n="bp_chart_title">Land allocation — 90,000 m²</h4>
-        <div class="land-bars">
-          <div class="land-bar">
-            <div class="land-bar-fill" style="width:75.8%; background:var(--emerald)"></div>
-            <span class="land-bar-label"><span data-i18n="land_green">Green &amp; conservation areas</span> <span class="mono">75.8%</span></span>
-          </div>
-          <div class="land-bar">
-            <div class="land-bar-fill" style="width:24.2%; background:var(--gold)"></div>
-            <span class="land-bar-label"><span data-i18n="land_built">Built footprint (homes, roads, club)</span> <span class="mono">24.2%</span></span>
-          </div>
-        </div>
-        <div class="bp-specs">
-          <div class="bp-spec"><span class="mono">141</span><span data-i18n="spec_homes">homes</span></div>
-          <div class="bp-spec"><span class="mono">250<small>m²</small></span><span data-i18n="spec_size">per home</span></div>
-          <div class="bp-spec"><span class="mono">3–4</span><span data-i18n="spec_br">bedrooms</span></div>
-          <div class="bp-spec"><span class="mono">1</span><span data-i18n="spec_pool">private pool each</span></div>
-          <div class="bp-spec"><span class="mono">9<small>ha</small></span><span data-i18n="spec_land">total land</span></div>
-          <div class="bp-spec"><span class="mono">150<small>m</small></span><span data-i18n="spec_front">highway frontage</span></div>
-        </div>
-      </div>
-
-      <!-- Amenities -->
-      <div class="bp-amenities">
-        <h4 class="chart-title" data-i18n="bp_amenities_title">Master plan amenities</h4>
-        <ul class="amenity-list">
-          <li data-i18n="am_1">Clubhouse — pool, gym, social areas, coworking</li>
-          <li data-i18n="am_2">Walking trails and dedicated cycleway</li>
-          <li data-i18n="am_3">24/7 security, gated single access</li>
-          <li data-i18n="am_4">Solar-powered LED lighting throughout</li>
-          <li data-i18n="am_5">On-site wastewater treatment plant</li>
-          <li data-i18n="am_6">Rainwater capture and storage</li>
-          <li data-i18n="am_7">Children's play areas · pet zone · grills</li>
-          <li data-i18n="am_8">Digital community management platform</li>
-        </ul>
-        <div class="bp-density">
-          <p data-i18n="bp_density_note">Zoning permits 179 homes on this land. The plan builds 141 — density held 21% below the legal ceiling, by design.</p>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Architectural concept renders -->
-    <div class="renders">
-      <h3 class="block-title" data-i18n="renders_title">El concepto arquitectónico</h3>
-      <p class="renders-note" data-i18n="renders_note">Renders preliminares del concepto (2024). El diseño final del masterplan y las villas corresponde al escenario elegido.</p>
-      <div class="renders-grid">
-        <figure class="render-card">
-          <img src="assets/render-casa.jpg" alt="Casa unifamiliar 250 m²" loading="lazy">
-          <figcaption data-i18n="render_1">Casa unifamiliar tipo — 250 m², 3-4 recámaras, alberca privada</figcaption>
-        </figure>
-        <figure class="render-card">
-          <img src="assets/render-pool.jpg" alt="Casa club y alberca" loading="lazy">
-          <figcaption data-i18n="render_2">Casa club — alberca, áreas sociales, coworking</figcaption>
-        </figure>
-        <figure class="render-card">
-          <img src="assets/render-entrance.jpg" alt="Acceso al desarrollo" loading="lazy">
-          <figcaption data-i18n="render_3">Acceso único controlado, vialidades arboladas</figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <!-- Timeline -->
-    <div class="timeline">
-      <h3 class="block-title" data-i18n="timeline_title">Seven-year delivery roadmap</h3>
-      <div class="timeline-track">
-        <div class="timeline-item">
-          <span class="timeline-month mono" data-i18n="tl_m1">Month 1</span>
-          <span class="timeline-event" data-i18n="tl_e1">Site works begin — perimeter, earthworks, roads</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-month mono" data-i18n="tl_m2">Month 5</span>
-          <span class="timeline-event" data-i18n="tl_e2">Presales open — 45% deposits collected</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-month mono" data-i18n="tl_m3">Month 17</span>
-          <span class="timeline-event" data-i18n="tl_e3">First home delivered — first 55% closing payment</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-month mono" data-i18n="tl_m4">Month 18</span>
-          <span class="timeline-event" data-i18n="tl_e4">Investor distributions begin</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-month mono" data-i18n="tl_m5">Month 35</span>
-          <span class="timeline-event" data-i18n="tl_e5">50% of inventory sold — $705M cumulative sales</span>
-        </div>
-        <div class="timeline-item">
-          <span class="timeline-month mono" data-i18n="tl_m6">Month 84</span>
-          <span class="timeline-event" data-i18n="tl_e6">Project close — final distribution to partners</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINANCIAL DASHBOARD ============ -->
-<section class="section section-alt" id="financials">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">04</span>
-      <div>
-        <h2 class="section-title" data-i18n="fin_title">The numbers, net of everything</h2>
-        <p class="section-lede" data-i18n="fin_lede">All figures net of construction, land, commissions, contingency, VAT and — where applicable — every Pininfarina fee and royalty. No bank debt anywhere in the structure: the project is financed by investor seed capital and presale cash flow.</p>
-      </div>
-    </div>
-
-    <!-- Scenario toggle for dashboard -->
-    <div class="scenario-toggle-wrap">
-      <span data-i18n="fin_toggle_label">Viewing scenario:</span>
-      <div class="scenario-toggle" id="dashboardToggle">
-        <button class="scn-btn active" data-scn="sin" data-i18n="scn_base">Base Plan</button>
-        <button class="scn-btn" data-scn="con">Design by Pininfarina</button>
-      </div>
-    </div>
-
-    <!-- Headline financials -->
-    <div class="fin-headline" id="finHeadline">
-      <div class="fin-stat">
-        <span class="fin-stat-label" data-i18n="fin_vgv">Total Sales Value (VGV)</span>
-        <span class="fin-stat-value mono" id="finVgv">$1,480.5M</span>
-        <span class="fin-stat-usd mono" id="finVgvUsd">$82.3M USD</span>
-      </div>
-      <div class="fin-stat">
-        <span class="fin-stat-label" data-i18n="fin_cost">Total Project Cost</span>
-        <span class="fin-stat-value mono" id="finCost">$971.2M</span>
-        <span class="fin-stat-usd mono" id="finCostUsd">$54.0M USD</span>
-      </div>
-      <div class="fin-stat">
-        <span class="fin-stat-label" data-i18n="fin_profit">Net Profit</span>
-        <span class="fin-stat-value mono fin-gold" id="finProfit">$509.3M</span>
-        <span class="fin-stat-usd mono" id="finProfitUsd">$28.3M USD</span>
-      </div>
-      <div class="fin-stat">
-        <span class="fin-stat-label" data-i18n="fin_margin">Net Margin</span>
-        <span class="fin-stat-value mono fin-gold" id="finMargin">34.4%</span>
-        <span class="fin-stat-usd" data-i18n="fin_margin_note">on total sales</span>
-      </div>
-    </div>
-
-    <!-- Charts grid -->
-    <div class="charts-grid">
-      <div class="chart-card chart-card-wide">
-        <h4 class="chart-title" data-i18n="chart_jcurve_title">Investor cumulative cash flow — the J-curve</h4>
-        <p class="chart-sub" data-i18n="chart_jcurve_sub">Capital out (tranches), capital back (distributions from month 18). Both scenarios shown with a stressed downside (absorption 1.8/month).</p>
-        <div class="chart-wrap chart-tall"><canvas id="chartJcurve"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <h4 class="chart-title" data-i18n="chart_absorption_title">Inventory sell-down</h4>
-        <p class="chart-sub" data-i18n="chart_absorption_sub">Homes remaining by month. Capital returned at the marked point.</p>
-        <div class="chart-wrap"><canvas id="chartAbsorption"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <h4 class="chart-title" data-i18n="chart_capital_title">Capital deployment vs. presale inflows</h4>
-        <p class="chart-sub" data-i18n="chart_capital_sub">Investor tranches are called against milestones — never all at once.</p>
-        <div class="chart-wrap"><canvas id="chartCapital"></canvas></div>
-      </div>
-      <div class="chart-card chart-card-wide">
-        <h4 class="chart-title" data-i18n="chart_cost_title">Where the money goes</h4>
-        <p class="chart-sub" data-i18n="chart_cost_sub">Full cost breakdown including VAT — base plan.</p>
-        <div class="chart-wrap"><canvas id="chartCosts"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Tranches table -->
-    <div class="tranches">
-      <h3 class="block-title" data-i18n="tranches_title">Capital is called against milestones, not promises</h3>
-      <div class="table-wrap">
-        <table class="data-table" id="tranchesTable">
-          <thead>
-            <tr>
-              <th data-i18n="tr_h1">Tranche</th>
-              <th data-i18n="tr_h2">Month</th>
-              <th data-i18n="tr_h3">Amount (MXN)</th>
-              <th data-i18n="tr_h4">Release trigger</th>
-              <th data-i18n="tr_h5">Use of funds</th>
-            </tr>
-          </thead>
-          <tbody><!-- filled by JS --></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Waterfall -->
-    <div class="waterfall">
-      <h3 class="block-title" data-i18n="waterfall_title">The investor waterfall</h3>
-      <div class="waterfall-grid">
-        <div class="wf-step">
-          <span class="wf-num mono">1</span>
-          <p data-i18n="wf_1">Investor seed capital is returned first — in equal annual installments across the six-year distribution period, beginning month 18.</p>
-        </div>
-        <div class="wf-step">
-          <span class="wf-num mono">2</span>
-          <p data-i18n="wf_2">Remaining profit is split equally among the three partners — the investor participates in one third of all upside.</p>
-        </div>
-        <div class="wf-step">
-          <span class="wf-num mono">3</span>
-          <p data-i18n="wf_3">Result for the investor: every peso back plus one third of profits — 2.36–2.50× the original commitment over the project life.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CALCULATOR ============ -->
-<section class="section" id="calculator">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">05</span>
-      <div>
-        <h2 class="section-title" data-i18n="calc_title">Stress it yourself</h2>
-        <p class="section-lede" data-i18n="calc_lede">Drag the assumptions. The model recomputes the full waterfall live — IRR, multiple, payback and the cash flow curve. Sliders start at conservative values, not the plan.</p>
-      </div>
-    </div>
-
-    <div class="calc-layout">
-      <!-- Controls -->
-      <div class="calc-controls">
-        <div class="calc-pf-toggle">
-          <span data-i18n="calc_pf_label">Design by Pininfarina</span>
-          <button class="switch" id="calcPfToggle" role="switch" aria-checked="false">
-            <span class="switch-knob"></span>
-          </button>
-        </div>
-
-        <div class="calc-slider">
-          <div class="calc-slider-head">
-            <label for="sliderPrice" data-i18n="calc_price_label">Sale price (MXN/m²)</label>
-            <span class="mono calc-slider-value" id="priceValue">$40,000</span>
-          </div>
-          <input type="range" id="sliderPrice" min="36000" max="52000" step="500" value="40000">
-          <div class="calc-slider-marks">
-            <span class="mono">$36K</span>
-            <span class="calc-mark-plan mono" id="pricePlanMark">plan: $42K</span>
-            <span class="mono">$52K</span>
-          </div>
-        </div>
-
-        <div class="calc-slider">
-          <div class="calc-slider-head">
-            <label for="sliderAbsorption" data-i18n="calc_abs_label">Absorption (homes/month)</label>
-            <span class="mono calc-slider-value" id="absValue">2.0</span>
-          </div>
-          <input type="range" id="sliderAbsorption" min="1.2" max="4.0" step="0.05" value="2.0">
-          <div class="calc-slider-marks">
-            <span class="mono">1.2</span>
-            <span class="calc-mark-plan mono" id="absPlanMark">plan: 2.35</span>
-            <span class="mono">4.0</span>
-          </div>
-          <p class="calc-warning mono" id="absWarning" hidden data-i18n="calc_abs_warning">⚠ Below the worst historical absorption for comparable product in this submarket</p>
-        </div>
-
-        <div class="calc-slider">
-          <div class="calc-slider-head">
-            <label for="sliderFx" data-i18n="calc_fx_label">FX rate (MXN per USD)</label>
-            <span class="mono calc-slider-value" id="fxValue">18.0</span>
-          </div>
-          <input type="range" id="sliderFx" min="15" max="22" step="0.5" value="18">
-          <div class="calc-slider-marks">
-            <span class="mono">15</span>
-            <span class="mono">22</span>
-          </div>
-        </div>
-
-        <button class="btn btn-ghost btn-block" id="calcReset" data-i18n="calc_reset">Reset to plan assumptions</button>
-      </div>
-
-      <!-- Outputs -->
-      <div class="calc-outputs">
-        <div class="calc-output-grid">
-          <div class="calc-output">
-            <span class="calc-output-label" data-i18n="out_irr">Investor IRR</span>
-            <span class="calc-output-value mono" id="outIrr">—</span>
-          </div>
-          <div class="calc-output">
-            <span class="calc-output-label" data-i18n="out_moic">Equity Multiple</span>
-            <span class="calc-output-value mono" id="outMoic">—</span>
-          </div>
-          <div class="calc-output">
-            <span class="calc-output-label" data-i18n="out_payback">Payback</span>
-            <span class="calc-output-value mono" id="outPayback">—</span>
-          </div>
-          <div class="calc-output">
-            <span class="calc-output-label" data-i18n="out_profit">Net Project Profit</span>
-            <span class="calc-output-value mono" id="outProfit">—</span>
-          </div>
-          <div class="calc-output">
-            <span class="calc-output-label" data-i18n="out_investor_total">Total to Investor</span>
-            <span class="calc-output-value mono" id="outInvestorTotal">—</span>
-          </div>
-          <div class="calc-output">
-            <span class="calc-output-label" data-i18n="out_selldown">Sell-out Time</span>
-            <span class="calc-output-value mono" id="outSelldown">—</span>
-          </div>
-        </div>
-        <div class="calc-chart">
-          <h4 class="chart-title" data-i18n="calc_chart_title">Your scenario — investor cumulative cash flow</h4>
-          <div class="chart-wrap"><canvas id="chartCalc"></canvas></div>
-        </div>
-        <p class="calc-note" id="calcVerdict"></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ RISK ============ -->
-<section class="section section-alt" id="risk">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">06</span>
-      <div>
-        <h2 class="section-title" data-i18n="risk_title">How this deal could lose money</h2>
-        <p class="section-lede" data-i18n="risk_lede">Every assumption below has a failure mode. Here is each one, quantified, with what protects against it. Capital is returned after selling roughly 95 of 141 homes — houses 96 through 141 are the profit.</p>
-      </div>
-    </div>
-
-    <div class="risk-grid">
-      <div class="risk-card">
-        <h4 data-i18n="risk_1_t">Absorption stalls</h4>
-        <p class="risk-fail" data-i18n="risk_1_f">Plan needs 2.35 homes/month. The market absorbs 58–65/month — the plan requires under 4% market share. The model stays profitable down to 1.8/month.</p>
-        <p class="risk-mit"><span data-i18n="risk_mit_label">Mitigant:</span> <span data-i18n="risk_1_m">international broker network (Sotheby's, Engel &amp; Völkers), presales open before construction of homes begins.</span></p>
-      </div>
-      <div class="risk-card">
-        <h4 data-i18n="risk_2_t">Construction costs overrun</h4>
-        <p class="risk-fail" data-i18n="risk_2_f">Materials inflation in the Riviera Maya runs ~5% annually. A sustained spike compresses margin.</p>
-        <p class="risk-mit"><span data-i18n="risk_mit_label">Mitigant:</span> <span data-i18n="risk_2_m">turnkey contracts with EGD Construcciones (BIM-managed), 1% contingency reserve, 98% locally sourced materials.</span></p>
-      </div>
-      <div class="risk-card">
-        <h4 data-i18n="risk_3_t">Permits delay</h4>
-        <p class="risk-fail" data-i18n="risk_3_f">Coastal Quintana Roo carries real environmental scrutiny (SEMARNAT). A rejected MIA stops the project.</p>
-        <p class="risk-mit"><span data-i18n="risk_mit_label">Mitigant:</span> <span data-i18n="risk_3_m">land-use certificate granted January 2021; MIA filed (ordinary modality); density 21% below the permitted ceiling; 75.8% of land preserved green.</span></p>
-      </div>
-      <div class="risk-card">
-        <h4 data-i18n="risk_4_t">Peso/dollar swings</h4>
-        <p class="risk-fail" data-i18n="risk_4_f">Investment and sales are denominated in MXN. A strong peso reduces USD-equivalent returns for dollar-based investors.</p>
-        <p class="risk-mit"><span data-i18n="risk_mit_label">Mitigant:</span> <span data-i18n="risk_4_m">costs are 98% peso-denominated (natural hedge); 65% of Riviera Maya buyers pay in USD terms — a weak peso accelerates their purchases.</span></p>
-      </div>
-      <div class="risk-card">
-        <h4 data-i18n="risk_5_t">Tourism cycle turns</h4>
-        <p class="risk-fail" data-i18n="risk_5_f">A demand shock (recession, pandemic-type event) cuts buyer flow and absorption simultaneously.</p>
-        <p class="risk-mit"><span data-i18n="risk_mit_label">Mitigant:</span> <span data-i18n="risk_5_m">buyer base spans five nationalities; tourism recovered from 7.5M (2020) to 20.8M (2025); cash position stays positive every single month in the model — no forced selling.</span></p>
-      </div>
-      <div class="risk-card">
-        <h4 data-i18n="risk_6_t">Oversupply</h4>
-        <p class="risk-fail" data-i18n="risk_6_f">The Riviera Maya pipeline is heavy — 74+ active developments in Playa del Carmen alone.</p>
-        <p class="risk-mit"><span data-i18n="risk_mit_label">Mitigant:</span> <span data-i18n="risk_6_m">90%+ of new inventory is vertical (condos). Single-family homes of 250 m² are under 5% of new supply — this is the underserved niche.</span></p>
-      </div>
-    </div>
-
-    <div class="risk-floor">
-      <div class="risk-floor-inner">
-        <span class="risk-floor-num mono">1.8</span>
-        <p data-i18n="risk_floor_text">homes per month — the absorption floor at which the project still returns all investor capital plus profit. That is 23% below plan and roughly 3% of current market absorption. Below that, distributions stretch but the model's cash position never goes negative: there is no bank debt to default on.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DOCUMENTATION ============ -->
-<section class="section" id="documentation">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">07</span>
-      <div>
-        <h2 class="section-title" data-i18n="doc_title">What is already in hand</h2>
-        <p class="section-lede" data-i18n="doc_lede">Full documentation available in the data room under NDA. Status as of May 2026.</p>
-      </div>
-    </div>
-
-    <div class="doc-list">
-      <div class="doc-item doc-done">
-        <span class="doc-status mono" data-i18n="doc_status_done">✓ In hand</span>
-        <span class="doc-name" data-i18n="doc_1">Land title — 9 ha, sponsor-controlled (Inmobiliaria Mactzil S.A. de C.V.)</span>
-      </div>
-      <div class="doc-item doc-done">
-        <span class="doc-status mono" data-i18n="doc_status_done">✓ In hand</span>
-        <span class="doc-name" data-i18n="doc_2">Land-use certificate (CUS) — residential/commercial, granted January 2021, file SPU-CUS-0755-2020</span>
-      </div>
-      <div class="doc-item doc-done">
-        <span class="doc-status mono" data-i18n="doc_status_done">✓ In hand</span>
-        <span class="doc-name" data-i18n="doc_3">Environmental Impact Statement (MIA) — complete, SEMARNAT ordinary modality (document in data room)</span>
-      </div>
-      <div class="doc-item doc-done">
-        <span class="doc-status mono" data-i18n="doc_status_done">✓ In hand</span>
-        <span class="doc-name" data-i18n="doc_4">Water &amp; power feasibility (CAPA / CFE) — secured</span>
-      </div>
-      <div class="doc-item doc-progress">
-        <span class="doc-status mono" data-i18n="doc_status_progress">◐ In process</span>
-        <span class="doc-name" data-i18n="doc_5">Condominium regime — draft prepared, formalization months 2–4</span>
-      </div>
-      <div class="doc-item doc-done">
-        <span class="doc-status mono" data-i18n="doc_status_done">✓ In hand</span>
-        <span class="doc-name" data-i18n="doc_6">Market study — 2026, with comparables, absorption and pricing analysis (available in data room)</span>
-      </div>
-      <div class="doc-item doc-done">
-        <span class="doc-status mono" data-i18n="doc_status_done">✓ In hand</span>
-        <span class="doc-name" data-i18n="doc_7">Full monthly financial model — 84-month cash flow, both scenarios (available in data room)</span>
-      </div>
-      <div class="doc-item doc-progress">
-        <span class="doc-status mono" data-i18n="doc_status_progress">◐ Scoped</span>
-        <span class="doc-name" data-i18n="doc_8">Pininfarina design &amp; licensing package — terms scoped, engagement upon scenario election</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============ TEAM ============ -->
-<section class="section section-alt" id="team">
-  <div class="container">
-    <div class="section-head">
-      <span class="section-num mono">08</span>
-      <div>
-        <h2 class="section-title" data-i18n="team_title">Quién construye esto</h2>
-        <p class="section-lede" data-i18n="team_lede">Los fondos respaldan operadores, no hojas de cálculo. El equipo detrás de Punta Nahpu ha entregado infraestructura comercial a escala nacional durante tres décadas.</p>
-      </div>
-    </div>
-    <div class="team-grid">
-      <div class="team-card">
-        <span class="team-role mono" data-i18n="team_1_role">Desarrollador</span>
-        <h4>Alfredo López Matus</h4>
-        <p data-i18n="team_1_desc">Tres décadas desarrollando infraestructura comercial en México: 17 tiendas Costco y más de 50 centros comerciales entregados. Lidera Grupo LoPac e Inmobiliaria Mactzil.</p>
-      </div>
-      <div class="team-card team-card-pf">
-        <span class="team-role mono" data-i18n="team_4_role">Diseño (opcional)</span>
-        <h4>Pininfarina</h4>
-        <p data-i18n="team_4_desc">La casa de diseño italiana fundada en 1930 — Ferrari, Maserati, Cipriani Residences. Paquete de masterplan, arquitectura de villa y licencia de marca cotizado para el escenario premium.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ THE ASK ============ -->
-<section class="section section-ask" id="ask">
-  <div class="ask-bg" aria-hidden="true"></div>
-  <div class="container">
-    <div class="ask-content">
-      <p class="ask-eyebrow" data-i18n="ask_eyebrow">The opportunity</p>
-      <h2 class="ask-title" data-i18n="ask_title">One investor seat. Tranched capital. Preferred return of every peso.</h2>
-      <p class="ask-text" data-i18n="ask_text">Grupo LoPac is raising $100–105M MXN (≈ $5.6–5.8M USD) from a single capital partner, deployed in four milestone-gated tranches over 14 months. The investor's capital is returned first through a preferred waterfall, then shares one third of all profits. Sponsor partners contribute land control, entitlements, and full development execution.</p>
-
-      <div class="ask-terms">
-        <div class="ask-term">
-          <span class="ask-term-label" data-i18n="ask_term_1l">First tranche</span>
-          <span class="ask-term-value mono">$50–57.8M MXN</span>
-          <span class="ask-term-note" data-i18n="ask_term_1n">at legal close</span>
-        </div>
-        <div class="ask-term">
-          <span class="ask-term-label" data-i18n="ask_term_2l">Structure</span>
-          <span class="ask-term-value mono" data-i18n="ask_term_2v">Preferred waterfall</span>
-          <span class="ask-term-note" data-i18n="ask_term_2n">capital back first, then ⅓ of profit</span>
-        </div>
-        <div class="ask-term">
-          <span class="ask-term-label" data-i18n="ask_term_3l">Distributions</span>
-          <span class="ask-term-value mono" data-i18n="ask_term_3v">From month 18</span>
-          <span class="ask-term-note" data-i18n="ask_term_3n">annual, over six years</span>
-        </div>
-      </div>
-
-      <div class="ask-ctas">
-        <a href="dataroom.html" class="btn btn-gold btn-lg" data-i18n="ask_cta_1">Request Data Room Access</a>
-        <a href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Site%20Visit" class="btn btn-ghost btn-lg" data-i18n="ask_cta_2">Schedule a Site Visit</a>
-      </div>
-      <p class="ask-fine" data-i18n="ask_fine">The data room includes the full 84-month financial model, legal documentation, market study, land title and permit files. Site visits arranged from Cancún International — 30 minutes door to door.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <img src="assets/logo-mark.png" alt="Grupo LoPac" class="footer-logo">
-      <p data-i18n="footer_dev">Developed by Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.</p>
-    </div>
-    <div class="footer-meta">
-      <p class="mono">PUNTA NAHPU · PUNTA MAROMA · QUINTANA ROO · MX</p>
-      <p class="footer-disclaimer" data-i18n="footer_disclaimer">This website is an informational summary for qualified investors and does not constitute an offer of securities. All projections are estimates based on the assumptions described herein; actual results may differ. Full terms available in the data room under NDA. Figures as of May 2026, MXN unless noted, FX reference 18.0 MXN/USD.</p>
-    </div>
-  </div>
-</footer>
-
-<script src="js/i18n.js"></script>
-<script src="js/model.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/map.js"></script>
-<script src="js/main.js"></script>
+  // Auto-unlock if already authenticated this session
+  try {
+    var saved = sessionStorage.getItem("nahpu_site");
+    if (saved) attempt(saved, true);
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
