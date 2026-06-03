@@ -113,9 +113,15 @@
     padding-bottom: 28px;
     border-bottom: 1px solid var(--line);
   }
+  .gate-links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
   .gate-request {
     display: inline-block;
-    margin-top: 18px;
     font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 0.06em;
@@ -147,7 +153,10 @@
       <button class="btn btn-gold" id="gateBtn">Entrar</button>
     </div>
     <p class="gate-msg" id="gateMsg"></p>
-    <a class="gate-request" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AEmpresa%3A%0ATel%C3%A9fono%3A">Solicitar acceso →</a>
+    <div class="gate-links">
+      <a class="gate-request" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AEmpresa%3A%0ATel%C3%A9fono%3A">Solicitar acceso →</a>
+      <a class="gate-request" href="assets/punta-nahpu-teaser.pdf" download>Descargar teaser (PDF) ↓</a>
+    </div>
     <p class="gate-foot">Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.<br>Contenido cifrado — AES-256</p>
   </div>
 </div>
