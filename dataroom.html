@@ -215,6 +215,8 @@ document.getElementById("langToggle").addEventListener("click", () => {
 
 /* ============ Crypto ============ */
 const PBKDF2_ITERATIONS = 600000;
+const ROOMS = ["dataroom", "dataroom-internal"];   // sales tried first, internal fallback
+let roomBase = "dataroom";
 let cryptoKey = null;
 let manifest = null;
 let unlocked = false;
@@ -246,25 +248,30 @@ async function tryUnlock() {
   errEl.style.color = "var(--cream-faint)";
   btn.disabled = true;
 
-  try {
-    const [saltBuf, manifestBuf] = await Promise.all([
-      fetch("dataroom/salt.bin").then(r => r.arrayBuffer()),
-      fetch("dataroom/manifest.enc").then(r => r.arrayBuffer())
-    ]);
-    const key = await deriveKey(pw, new Uint8Array(saltBuf));
-    // Decrypting the manifest IS the password check — AES-GCM auth fails on wrong key
-    const manifestData = await decryptBlob(key, manifestBuf);
-    manifest = JSON.parse(new TextDecoder().decode(manifestData));
-    cryptoKey = key;
-    unlocked = true;
-    sessionStorage.setItem("nahpu_dr", pw);  // re-unlock within the session
-    showRoom();
-  } catch (e) {
+  // Try the password against each room (sales first, then internal).
+  // Decrypting a room's manifest IS the password check — AES-GCM auth fails on wrong key.
+  let ok = false;
+  for (const base of ROOMS) {
+    try {
+      const [saltBuf, manifestBuf] = await Promise.all([
+        fetch(base + "/salt.bin").then(r => r.arrayBuffer()),
+        fetch(base + "/manifest.enc").then(r => r.arrayBuffer())
+      ]);
+      const key = await deriveKey(pw, new Uint8Array(saltBuf));
+      const manifestData = await decryptBlob(key, manifestBuf);
+      manifest = JSON.parse(new TextDecoder().decode(manifestData));
+      cryptoKey = key; roomBase = base; unlocked = true;
+      sessionStorage.setItem("nahpu_dr", pw);
+      showRoom();
+      ok = true;
+      break;
+    } catch (e) { /* try next room */ }
+  }
+  if (!ok) {
     errEl.textContent = dt("wrong");
     errEl.style.color = "var(--red-soft)";
-  } finally {
-    btn.disabled = false;
   }
+  btn.disabled = false;
 }
 
 function showRoom() {
@@ -301,7 +308,7 @@ async function downloadFile(idx, btn) {
   btn.textContent = dt("downloading");
   btn.disabled = true;
   try {
-    const encData = await fetch("dataroom/" + f.blob).then(r => r.arrayBuffer());
+    const encData = await fetch(roomBase + "/" + f.blob).then(r => r.arrayBuffer());
     const plain = await decryptBlob(cryptoKey, encData);
     const blob = new Blob([plain]);
     const url = URL.createObjectURL(blob);
