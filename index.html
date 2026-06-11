@@ -80,58 +80,8 @@
     color: var(--cream-faint);
     line-height: 1.6;
   }
-  .gate-card-wide { max-width: 560px; }
-  .gate-thesis {
-    font-family: var(--font-display);
-    font-size: 22px;
-    line-height: 1.4;
-    color: var(--cream);
-    margin-bottom: 20px;
-  }
-  .gate-kpis {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    margin-bottom: 20px;
-  }
-  .gate-kpi {
-    background: var(--ink);
-    padding: 14px 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .gate-kpi .mono { font-size: 14.5px; font-weight: 600; color: var(--gold-bright); }
-  .gate-kpi small { font-size: 9.5px; color: var(--cream-faint); letter-spacing: 0.04em; }
-  .gate-trust {
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--cream-dim);
-    margin-bottom: 32px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--line);
-  }
-  .gate-links {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    flex-wrap: wrap;
-    margin-top: 18px;
-  }
-  .gate-request {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: var(--gold-bright);
-    text-decoration: none;
-  }
-  .gate-request:hover { text-decoration: underline; }
   @media (max-width: 520px) {
     .gate-card { padding: 40px 28px; }
-    .gate-kpis { grid-template-columns: repeat(2, 1fr); }
     .gate-field { flex-direction: column; }
     .gate-field .btn { width: 100%; }
   }
@@ -144,8 +94,7 @@
     <div class="gate-brand">PUNTA NAHPU</div>
     <div class="gate-sub">Riviera Maya · México</div>
 
-    <!-- Generic thesis only — no figures, no deal terms -->
-    <p class="gate-thesis">Desarrollo residencial privado<br>en la Riviera Maya.</p>
+    <p class="gate-thesis" style="font-family:var(--font-display);font-size:22px;line-height:1.4;color:var(--cream);margin-bottom:20px;">Desarrollo residencial privado<br>en la Riviera Maya.</p>
     <p class="gate-text">Información confidencial para inversionistas calificados.<br>El acceso requiere clave proporcionada por Grupo LoPac.</p>
 
     <div class="gate-field">
@@ -153,9 +102,9 @@
       <button class="btn btn-gold" id="gateBtn">Entrar</button>
     </div>
     <p class="gate-msg" id="gateMsg"></p>
-    <div class="gate-links">
-      <a class="gate-request" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AEmpresa%3A%0ATel%C3%A9fono%3A">Solicitar acceso →</a>
-      <a class="gate-request" href="assets/punta-nahpu-teaser.pdf" download>Descargar teaser (PDF) ↓</a>
+    <div class="gate-links" style="display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:18px;">
+      <a class="gate-request" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--gold-bright);text-decoration:none;" href="mailto:jesus@lopezpalacios.com?subject=Punta%20Nahpu%20%E2%80%94%20Solicitud%20de%20acceso&body=Nombre%3A%0AEmpresa%3A%0ATel%C3%A9fono%3A">Solicitar acceso →</a>
+      <a class="gate-request" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--gold-bright);text-decoration:none;" href="assets/punta-nahpu-teaser.pdf" download>Descargar teaser (PDF) ↓</a>
     </div>
     <p class="gate-foot">Grupo LoPac · Inmobiliaria Mactzil S.A. de C.V.<br>Contenido cifrado — AES-256</p>
   </div>
@@ -164,6 +113,7 @@
 <script>
 (function () {
   var ITER = 600000;
+  var FILES = ["app.enc", "app-internal.enc"];   // sales first, internal fallback
   var unlocking = false;
 
   function deriveKey(password, salt) {
@@ -173,6 +123,17 @@
         { name: "PBKDF2", salt: salt, iterations: ITER, hash: "SHA-256" },
         km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
       );
+    });
+  }
+
+  function tryFile(file, pw) {
+    return fetch(file).then(function (r) { return r.arrayBuffer(); }).then(function (buf) {
+      var d = new Uint8Array(buf);
+      return deriveKey(pw, d.slice(0, 16)).then(function (key) {
+        return crypto.subtle.decrypt({ name: "AES-GCM", iv: d.slice(16, 28) }, key, d.slice(28));
+      });
+    }).then(function (plain) {
+      return JSON.parse(new TextDecoder().decode(plain));   // throws on fetch OR auth failure
     });
   }
 
@@ -189,12 +150,10 @@
   }
 
   function boot(payload) {
-    // Inject the real site
     var gateEl = document.getElementById("gate");
     gateEl.classList.add("unlocking");
     setTimeout(function () {
       document.body.innerHTML = payload.html;
-      // Load scripts sequentially, then fire DOMContentLoaded for their init hooks
       var chain = Promise.resolve();
       payload.scripts.forEach(function (code) {
         chain = chain.then(function () { return loadScriptCode(code); });
@@ -215,16 +174,10 @@
     msg.classList.remove("error");
     btn.disabled = true;
 
-    fetch("app.enc").then(function (r) { return r.arrayBuffer(); }).then(function (buf) {
-      var data = new Uint8Array(buf);
-      var salt = data.slice(0, 16);
-      var iv = data.slice(16, 28);
-      var ct = data.slice(28);
-      return deriveKey(pw, salt).then(function (key) {
-        return crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ct);
-      });
-    }).then(function (plain) {
-      var payload = JSON.parse(new TextDecoder().decode(plain));
+    // Sequential fallback: try sales payload, then internal. First to authenticate wins.
+    FILES.reduce(function (chain, file) {
+      return chain.catch(function () { return tryFile(file, pw); });
+    }, Promise.reject()).then(function (payload) {
       try { sessionStorage.setItem("nahpu_site", pw); } catch (e) {}
       boot(payload);
     }).catch(function () {
@@ -247,7 +200,6 @@
     if (e.key === "Enter") attempt(document.getElementById("gatePw").value, false);
   });
 
-  // Auto-unlock if already authenticated this session
   try {
     var saved = sessionStorage.getItem("nahpu_site");
     if (saved) attempt(saved, true);
